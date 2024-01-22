@@ -1,4 +1,5 @@
 import axios from "axios";
+// import fs from "fs";
 
 const gbl = {
   instagram: {},
@@ -48,7 +49,7 @@ const instagram = async (url, quality, shortcode) => {
     }
     if (gbl.instagram.error) return { code: 500, msg: gbl.instagram.error };
 
-    const response = await axios.request(
+    const { data: response } = await axios.request(
       "https://www.instagram.com/api/graphql",
       {
         method: "POST",
@@ -67,13 +68,15 @@ const instagram = async (url, quality, shortcode) => {
       }
     );
 
-    if (!response.data.data)
-      return { code: 404, msg: "No post is available for the provided URL." };
-    // console.log(response.data)
-    const item =
-      response.data.data.xdt_api__v1__media__shortcode__web_info.items[0];
+    // fs.writeFileSync("./response.json", JSON.stringify(response));
 
+    const item =
+      response.data?.xdt_api__v1__media__shortcode__web_info?.items?.[0];
     // console.log(item)
+
+    if (!item)
+      return { code: 404, msg: "No post is available for the provided URL." };
+
     return urlsFromItem(item, quality);
   } catch (error) {
     console.log(error);
@@ -89,7 +92,7 @@ const threads = async (url, quality) => {
     if (!post_id)
       return { code: 404, msg: "No post is available for the provided URL." };
 
-    const response = await axios.request({
+    const { data: response } = await axios.request({
       method: "POST",
       url: "https://www.threads.net/api/graphql",
       headers: {
@@ -103,11 +106,11 @@ const threads = async (url, quality) => {
         "&doc_id=5587632691339264",
     });
 
-    // console.log(response.data)
-    const item =
-      response.data.data.data.containing_thread.thread_items.at(-1).post;
+    // fs.writeFileSync("./response.json", JSON.stringify(response));
 
+    const item = response.data.data.containing_thread.thread_items.at(-1).post;
     // console.log(item)
+
     return urlsFromItem(item, quality);
   } catch (error) {
     console.log(error);

@@ -7,8 +7,6 @@ import app from "./app.js";
 
 const PORT = process.env.PORT || 3001;
 
-const server = app.listen(PORT, () =>
+ViteExpress.listen(app, PORT, () =>
   console.log("server listening on port " + PORT)
 );
-
-ViteExpress.bind(app, server);

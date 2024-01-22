@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { allowedDomains, platformRegex } from "../constants/app.constants.js";
-import getItems from "./media/fetchItemsUrls.js";
+import fetchItemsUrls from "./media/fetchItemsUrls.js";
 import downloadItems from "./media/downloadItems.js";
 
 async function main(req, res) {
@@ -49,10 +49,15 @@ async function main(req, res) {
     return res.send(fs.readFileSync(dir + "/.items"));
   }
 
-  let links = await getItems[platform](req.body.url, quality / 3, matched[1]);
+  let links = await fetchItemsUrls[platform](
+    req.body.url,
+    quality / 3,
+    matched[1]
+  );
 
   if (!Array.isArray(links))
     return res.status(links.code).send({ error: links.msg });
+
   links = links?.filter(Boolean);
 
   if (!links.length)
