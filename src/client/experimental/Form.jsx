@@ -55,7 +55,7 @@ export default function ({ platform, global }) {
         (PROXY ? PROXY + "/?url=" : "") + SERVER + "api/v1/media/" + platform,
         {
           method: "POST",
-          body: JSON.stringify({ url, quality: quality + 1 }),
+          body: JSON.stringify({ url, quality: parseInt(quality) + 1 }),
         }
       );
       response = await response.json();
