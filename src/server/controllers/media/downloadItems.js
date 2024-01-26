@@ -5,8 +5,14 @@ import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 import remote from "../../utils/remote.js";
 
-export default function (links, platfrom, post, req, res) {
-  const postDirectory = path.join(process.cwd(), "media", platfrom, post, "/");
+export default function (links, platform, dirName, req, res) {
+  const postDirectory = path.join(
+    process.cwd(),
+    "media",
+    platform,
+    dirName,
+    "/"
+  );
 
   let changeHandler = {
     set: function (target, property, value, receiver) {
@@ -40,7 +46,7 @@ export default function (links, platfrom, post, req, res) {
         fs.writeFileSync(file, buffer);
 
         if (extention === ".mp4") {
-          items[index] = { path: post + "/" + filename, format: "mp4" };
+          items[index] = { path: dirName + "/" + filename, format: "mp4" };
         } else {
           const image = sharp(buffer);
           const metadata = await image.metadata();
@@ -51,7 +57,7 @@ export default function (links, platfrom, post, req, res) {
 
           const blur = await image.resize(size).blur(30).toBuffer();
           items[index] = {
-            path: post + "/" + filename,
+            path: dirName + "/" + filename,
             format: metadata.format,
             width: metadata.width,
             height: metadata.height,

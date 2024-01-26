@@ -9,7 +9,7 @@ import "./App.scss";
 export default function () {
   const regex = {
     instagram:
-      /^https?:\/\/(?:www\.)?instagram\.com\/(?:p|reels?|tv)\/[a-zA-Z0-9_-]{11}\/?(?:\?.*)?$/,
+      /^(?:https?:\/\/(?:www\.)?instagram\.com\/(?:p|reels?|tv)\/([a-zA-Z0-9_-]{11})\/?(?:\?.*)?)|(@[a-z0-9._]{1,30})$/,
     threads:
       /^https?:\/\/(?:www\.)?threads\.net\/(?:t|@?[a-z0-9._]{1,30}\/post)\/[a-zA-Z0-9_-]{11}\/?(?:\?.*)?$/,
   };
@@ -33,7 +33,8 @@ export default function () {
         (PROXY ? PROXY + "/?url=" : "") +
           SERVER +
           "api/v1/media/" +
-          platform.current,
+          platform.current +
+          "/stories",
         {
           method: "POST",
           body: JSON.stringify({ url, quality }),

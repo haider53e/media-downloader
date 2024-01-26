@@ -1,12 +1,6 @@
 import axios from "axios";
-// import fs from "fs";
-
-const gbl = {
-  instagram: {},
-  threads: {},
-  userAgent:
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
-};
+import getPostItems from "./instagram/post.js";
+import getStoryItems from "./instagram/story.js";
 
 function finalURL(e, quality) {
   const target =
@@ -24,58 +18,26 @@ function urlsFromItem(item, quality) {
   else return [finalURL(item, quality)];
 }
 
-const instagram = async (url, quality, shortcode) => {
+const instagram = async (url, quality, shortcodeOrUsername, mediatype) => {
   try {
-    if (gbl.instagram.fb_dtsg_last_refresh !== new Date().toDateString()) {
-      const html = await axios.get("https://www.instagram.com/", {
-        validateStatus: () => true,
-        headers: {
-          "content-type": "application/x-www-form-urlencoded",
-          "sec-fetch-site": "same-origin",
-          cookie: "sessionid=" + process.env.IG_SESSIONID,
-          "user-agent": gbl.userAgent,
-        },
-      });
-      gbl.instagram.fb_dtsg_last_refresh = new Date().toDateString();
-      const fb_dtsg = html.data.match(/"f":"(.*)","l":null}/);
-      console.log("fb_dtsg:", fb_dtsg ? fb_dtsg[1] : "Not Found");
+    if (!mediatype) return { code: 400, msg: "Media type is not found." };
 
-      if (fb_dtsg) {
-        delete gbl.instagram.error;
-        gbl.instagram.fb_dtsg = fb_dtsg[1];
-      } else {
-        gbl.instagram.error = "Session ID is not valid.";
-      }
+    let item = null;
+    if (mediatype === "post") {
+      item = await getPostItems(shortcodeOrUsername);
     }
-    if (gbl.instagram.error) return { code: 500, msg: gbl.instagram.error };
-
-    const { data: response } = await axios.request(
-      "https://www.instagram.com/api/graphql",
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/x-www-form-urlencoded",
-          "sec-fetch-site": "same-origin",
-          cookie: "sessionid=" + process.env.IG_SESSIONID,
-          "user-agent": gbl.userAgent,
-        },
-        data:
-          "fb_dtsg=" +
-          encodeURIComponent(gbl.instagram.fb_dtsg) +
-          "&variables=" +
-          encodeURIComponent("{\"shortcode\":\"" + shortcode + "\"}") +
-          "&doc_id=6984800508210440",
-      }
-    );
-
-    // fs.writeFileSync("./response.json", JSON.stringify(response));
-
-    const item =
-      response.data?.xdt_api__v1__media__shortcode__web_info?.items?.[0];
-    // console.log(item)
+    //
+    else if (mediatype === "stories") {
+      item = await getStoryItems(shortcodeOrUsername);
+    }
 
     if (!item)
       return { code: 404, msg: "No post is available for the provided URL." };
+    //
+    if (item.code) return item;
+
+    if (Array.isArray(item))
+      return item.map((e) => urlsFromItem(e, quality)).flat();
 
     return urlsFromItem(item, quality);
   } catch (error) {
@@ -102,7 +64,7 @@ const threads = async (url, quality) => {
       },
       data:
         "lsd=1&variables=" +
-        encodeURIComponent("{\"postID\":\"" + post_id[1] + "\"}") +
+        encodeURIComponent(JSON.stringify({ postID: post_id[1] })) +
         "&doc_id=5587632691339264",
     });
 

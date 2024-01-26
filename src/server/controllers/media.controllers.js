@@ -6,7 +6,8 @@ import downloadItems from "./media/downloadItems.js";
 
 async function main(req, res) {
   const domain = req.headers.origin?.split("//")?.[1];
-  const { platform } = req.params;
+  const platform = req.params.platform;
+  const mediatype = req.params.mediatype;
 
   if (!domain)
     return res.status(400).json({
@@ -42,17 +43,25 @@ async function main(req, res) {
       error: "Provided URL is not a valid " + platform + " URL.",
     });
 
-  const dir = path.join(process.cwd(), "media", platform, matched[1] + quality);
+  const dirName = (matched[1] || mediatype + matched[2]) + quality;
+  const dir = path.join(process.cwd(), "media", platform, dirName);
 
   if (fs.existsSync(dir)) {
-    fs.writeFileSync(dir + "/.lastaccessed", Date.now().toString());
-    return res.send(fs.readFileSync(dir + "/.items"));
+    if (
+      fs.existsSync(dir + "/.items") &&
+      fs.existsSync(dir + "/.lastaccessed")
+    ) {
+      fs.writeFileSync(dir + "/.lastaccessed", Date.now().toString());
+      return res.send(fs.readFileSync(dir + "/.items"));
+    }
+    fs.rmSync(dir, { recursive: true });
   }
 
   let links = await fetchItemsUrls[platform](
     req.body.url,
     quality / 3,
-    matched[1]
+    matched[1] || matched[2],
+    mediatype
   );
 
   if (!Array.isArray(links))
@@ -68,7 +77,7 @@ async function main(req, res) {
   fs.mkdirSync(dir);
   fs.writeFileSync(dir + "/.lastaccessed", Date.now().toString());
 
-  downloadItems(links, platform, matched[1] + quality, req, res);
+  downloadItems(links, platform, dirName, req, res);
 }
 
 export { main };

@@ -3,6 +3,6 @@ import { main } from "../controllers/media.controllers.js";
 
 const router = express.Router();
 
-router.post("/:platform", main);
+router.post("/:platform/:mediatype", main);
 
 export default router;
