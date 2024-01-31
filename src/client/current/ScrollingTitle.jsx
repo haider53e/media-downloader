@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useSize } from "./hooks/ResizeObserver";
+import { useSize } from "./hooks/resizeObserver";
 
 export default function ({ title }) {
   const target = useRef(null);
