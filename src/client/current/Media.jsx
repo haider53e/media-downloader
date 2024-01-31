@@ -13,6 +13,7 @@ export default function ({ items }) {
     >
       {items.map((item) => {
         const Media = item.format === "mp4" ? Video : Image;
+
         item.url =
           (PROXY ? PROXY + "/" + item.path + "?url=" : "") + SERVER + item.path;
 

@@ -31,7 +31,7 @@ export default function ({ item }) {
           e.target.style.removeProperty("display");
         }}
         style={Object.assign({ display: "none" }, size)}
-        src={item.url}
+        src={item.path}
       ></img>
     </div>
   );

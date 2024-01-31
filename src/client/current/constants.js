@@ -6,6 +6,7 @@ export const regex = {
       name: "url",
     },
     stories: { regex: /^@?[a-z0-9._]{1,30}$/, name: "username" },
+    highlights: { regex: /^.+$/, name: "highlights group id" },
     highlightsGroups: { regex: /^@?[a-z0-9._]{1,30}$/, name: "username" },
   },
   threads: {

@@ -8,6 +8,7 @@ import "./App.scss";
 import SelectPlatform from "./SelectPlatform";
 import SelectType from "./SelectType";
 import SelectQuality from "./SelectQuality";
+import HighlightGroups from "./HighlightGroups";
 import { regex } from "./constants";
 
 function capitalizeFirstLetter(string) {
@@ -38,6 +39,10 @@ export default function () {
           <Alert message={"Provided " + reqRegex.name + " is not valid."} />
         );
 
+      const tempIdentifier = identifier;
+
+      if (type === "highlights") setType("highlightsGroups");
+      setIdentifier("");
       setStep(2);
 
       let url = SERVER + "api/v1/" + platform + "/" + type;
@@ -45,7 +50,7 @@ export default function () {
 
       let response = await fetch(url, {
         method: "POST",
-        body: JSON.stringify({ identifier, quality }),
+        body: JSON.stringify({ identifier: tempIdentifier, quality }),
       });
       response = await response.json();
       // console.log(response)
@@ -56,14 +61,17 @@ export default function () {
       } else {
         setAlert(null);
         setItems(response.items);
-        setStep(3);
+        if (response.type === "highlightsGroups") {
+          setType("highlights");
+          setStep(4);
+        }
+        //
+        else setStep(3);
       }
     } catch (e) {
       console.error(e);
       setAlert(<Alert message="API is not accessible." />);
       setStep(1);
-    } finally {
-      // setIdentifier("")
     }
   };
 
@@ -83,27 +91,39 @@ export default function () {
                   <p className="mt-2 mb-0 card-text text-accent text-center">
                     from Instagram & Threads
                   </p>
-                  <SelectPlatform
-                    platform={platform}
-                    setPlatform={setPlatform}
-                  />
-                  <input
-                    type="text"
-                    className="mt-2 form-control"
-                    placeholder={capitalizeFirstLetter(
-                      regex[platform][type]?.name || ""
-                    )}
-                    value={identifier}
-                    onChange={(e) => setIdentifier(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && fetchMedia()}
-                  />
-                  <SelectType
-                    type={type}
-                    setType={setType}
-                    platform={platform}
-                  />
+                  {step !== 4 && (
+                    <>
+                      <SelectPlatform
+                        platform={platform}
+                        setPlatform={setPlatform}
+                      />
+                      <input
+                        type="text"
+                        className="mt-2 form-control"
+                        placeholder={capitalizeFirstLetter(
+                          regex[platform][type]?.name || ""
+                        )}
+                        value={identifier}
+                        onChange={(e) => setIdentifier(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && fetchMedia()}
+                      />
+
+                      <SelectType
+                        type={type}
+                        setType={setType}
+                        platform={platform}
+                      />
+                    </>
+                  )}
+                  {step === 4 && (
+                    <HighlightGroups
+                      items={items}
+                      identifier={identifier}
+                      setIdentifier={setIdentifier}
+                    />
+                  )}
                   <SelectQuality quality={quality} setQuality={setQuality} />
-                  {(step === 1 || step === 3) && (
+                  {(step === 1 || step === 3 || step === 4) && (
                     <button
                       onClick={fetchMedia}
                       className="d-grid gap-2 col-6 col-sm-5 mx-auto btn btn-outline-accent mt-4"

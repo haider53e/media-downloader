@@ -9,6 +9,7 @@
     "pm2:d": "pm2 delete media-downloader"
   },
   "dependencies": {
+    "@react-hook/resize-observer": "^1.2.6",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
     "chalk": "^5.3.0",
