@@ -1,0 +1,72 @@
+import fs from "fs";
+import asyncHandler from "../utils/asyncHandler.js";
+import { allowedDomains, regex } from "../constants/app.constants.js";
+
+export default asyncHandler(async function (req, res, next) {
+  const prams = req.originalUrl.split("/");
+  const platform = (req.params.platform = prams[3]);
+  const mediatype = (req.params.mediatype = prams[4]);
+
+  console.log({ platform, mediatype });
+
+  const domain = req.headers.origin?.split("//")?.[1];
+
+  if (!domain)
+    return res
+      .status(400)
+      .json({ error: "Required header 'origin' is missing." });
+
+  if (!allowedDomains.includes(req.headers.origin))
+    return res
+      .status(400)
+      .json({ error: "Requests from " + domain + " are not allowed." });
+
+  if (!["instagram", "threads"].includes(platform))
+    return res
+      .status(400)
+      .json({ error: "Provided platform is not supported." });
+
+  const reqRegex = regex[platform][mediatype];
+
+  if (!reqRegex)
+    return res
+      .status(400)
+      .json({ error: "Provided mediatype is not supported." });
+
+  try {
+    req.body = JSON.parse(req.body);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ error: "Request body is not in a valid JSON format." });
+  }
+
+  const quality = req.body.quality;
+  let identifier = req.body.identifier;
+
+  if (!quality?.toString().match(/^[1-3]$/))
+    return res.status(400).json({ error: "Provide quality in range 1 to 3." });
+
+  const matched = identifier?.match(reqRegex.regex);
+
+  if (!matched)
+    return res
+      .status(400)
+      .json({ error: "Provide a valid " + reqRegex.name + "." });
+
+  const groupForDir = matched[reqRegex.groupForDir];
+  req.body.groupForApi = matched[reqRegex.groupForApi];
+
+  const dirName = mediatype + "@" + groupForDir + "@" + quality;
+  const dir = (req.body.dir = "media/" + platform + "/" + dirName + "/");
+
+  if (fs.existsSync(dir)) {
+    if (fs.existsSync(dir + ".items") && fs.existsSync(dir + ".lastaccessed")) {
+      fs.writeFileSync(dir + ".lastaccessed", Date.now().toString());
+      return res.send(fs.readFileSync(dir + ".items"));
+    }
+    fs.rmSync(dir, { recursive: true });
+  }
+
+  next();
+});

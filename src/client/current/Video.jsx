@@ -11,6 +11,11 @@ export default function ({ item }) {
       }}
       controls
       controlsList="nodownload"
+      onPlay={({ target }) =>
+        Array.from(document.querySelectorAll("audio,video")).forEach(
+          (media) => media !== target && media.pause()
+        )
+      }
     >
       <source src={item.url} />
     </video>

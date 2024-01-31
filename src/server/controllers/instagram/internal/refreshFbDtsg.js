@@ -1,8 +1,8 @@
 import axios from "axios";
 import gbl from "./global.js";
-import { userAgent } from "./../../../constants/app.constants.js";
+import { userAgent } from "../../../constants/app.constants.js";
 
-export default async function refreshFbDtsg() {
+export default async function () {
   if (gbl.fb_dtsg_last_refresh !== new Date().toDateString()) {
     const { data: html } = await axios.get("https://www.instagram.com/", {
       validateStatus: () => true,

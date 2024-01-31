@@ -3,11 +3,43 @@ export const allowedDomains = [
   "http://159.223.36.123:3001",
 ];
 
-export const platformRegex = {
-  instagram:
-    /^(?:https?:\/\/(?:www\.)?instagram\.com\/(?:p|reels?|tv)\/([a-zA-Z0-9_-]{11})\/?(?:\?.*)?)|(@[a-z0-9._]{1,30})$/,
-  threads:
-    /^https?:\/\/(?:www\.)?threads\.net\/(?:t|@?[a-z0-9._]{1,30}\/post)\/([a-zA-Z0-9_-]{11})\/?(?:\?.*)?$/,
+export const regex = {
+  instagram: {
+    post: {
+      regex:
+        /^https?:\/\/(?:www\.)?instagram\.com\/(?:p|reels?|tv)\/([a-zA-Z0-9_-]{11})\/?(?:\?.*)?$/,
+      name: "url",
+      groupForDir: 1,
+      groupForApi: 1,
+    },
+    stories: {
+      regex: /^@?([a-z0-9._]{1,30})$/,
+      name: "username",
+      groupForDir: 1,
+      groupForApi: 1,
+    },
+    highlights: {
+      regex: /^\d{17}$/,
+      name: "highlights group id",
+      groupForDir: 0,
+      groupForApi: 0,
+    },
+    highlightsGroups: {
+      regex: /^@?([a-z0-9._]{1,30})$/,
+      name: "username",
+      groupForDir: 1,
+      groupForApi: 1,
+    },
+  },
+  threads: {
+    post: {
+      regex:
+        /^https?:\/\/(?:www\.)?threads\.net\/(?:@?[a-z0-9._]{1,30}\/)?post\/([a-zA-Z0-9_-]{11})\/?(?:\?.*)?$/,
+      name: "url",
+      groupForDir: 1,
+      groupForApi: 0,
+    },
+  },
 };
 
 export const userAgent =

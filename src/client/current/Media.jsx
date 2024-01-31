@@ -1,7 +1,7 @@
 import Image from "./Image";
 import Video from "./Video";
 
-export default function ({ items, platform }) {
+export default function ({ items }) {
   return (
     <div
       className="mt-4"
@@ -14,12 +14,7 @@ export default function ({ items, platform }) {
       {items.map((item) => {
         const Media = item.format === "mp4" ? Video : Image;
         item.url =
-          (PROXY ? PROXY + "/" + item.path + "?url=" : "") +
-          SERVER +
-          "media/" +
-          platform.current +
-          "/" +
-          item.path;
+          (PROXY ? PROXY + "/" + item.path + "?url=" : "") + SERVER + item.path;
 
         return (
           <div

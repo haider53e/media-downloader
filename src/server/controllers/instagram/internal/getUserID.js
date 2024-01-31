@@ -1,9 +1,9 @@
 import axios from "axios";
 import gbl from "./global.js";
+import { userAgent } from "../../../constants/app.constants.js";
 import refreshFbDtsg from "./refreshFbDtsg.js";
-import { userAgent } from "./../../../constants/app.constants.js";
 
-export default async function getPostItems(shortcode) {
+export default async function (username) {
   await refreshFbDtsg();
 
   if (gbl.fb_dtsg === null)
@@ -23,10 +23,10 @@ export default async function getPostItems(shortcode) {
         "fb_dtsg=" +
         encodeURIComponent(gbl.fb_dtsg) +
         "&variables=" +
-        encodeURIComponent(JSON.stringify({ shortcode })) +
-        "&doc_id=6984800508210440",
+        encodeURIComponent(JSON.stringify({ username })) +
+        "&doc_id=6887760227926196",
     }
   );
 
-  return response.data?.xdt_api__v1__media__shortcode__web_info?.items?.[0];
+  return response?.data?.user?.id;
 }
