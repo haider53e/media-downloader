@@ -1,5 +1,6 @@
-import Image from "./Image";
+import Audio from "./Audio";
 import Video from "./Video";
+import Image from "./Image";
 
 export default function ({ items }) {
   return (
@@ -12,7 +13,9 @@ export default function ({ items }) {
       }}
     >
       {items.map((item) => {
-        const Media = item.format === "mp4" ? Video : Image;
+        let Media = Image;
+        if (item.format === "mp4") Media = Video;
+        else if (["m4a", "mp3"].includes(item.format)) Media = Audio;
 
         item.url =
           (PROXY ? PROXY + "/" + item.path + "?url=" : "") + SERVER + item.path;
@@ -22,7 +25,6 @@ export default function ({ items }) {
             style={{
               margin: "10px",
               width: "300px",
-              height: "350px",
               display: "flex",
               flexDirection: "column",
             }}

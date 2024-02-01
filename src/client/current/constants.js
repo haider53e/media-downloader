@@ -8,6 +8,11 @@ export const regex = {
     stories: { regex: /^@?[a-z0-9._]{1,30}$/, name: "username" },
     highlights: { regex: /^.+$/, name: "highlights group id" },
     highlightsGroups: { regex: /^@?[a-z0-9._]{1,30}$/, name: "username" },
+    audio: {
+      regex:
+        /^https?:\/\/(?:www\.)?instagram\.com\/reels\/audio\/(\d{15,20})\/?(?:\?.*)?$/,
+      name: "url",
+    },
   },
   threads: {
     post: {

@@ -1,7 +1,7 @@
 export default function ({ type, setType, platform }) {
   const instagramOnly = (
     <>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
         <input
           type="radio"
           id="stories"
@@ -12,7 +12,7 @@ export default function ({ type, setType, platform }) {
           Stories
         </label>
       </div>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
         <input
           type="radio"
           id="highlightsGroups"
@@ -21,6 +21,17 @@ export default function ({ type, setType, platform }) {
         />
         <label htmlFor="highlightsGroups" style={{ paddingLeft: "6px" }}>
           Highlights
+        </label>
+      </div>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <input
+          type="radio"
+          id="audio"
+          checked={type === "audio"}
+          onChange={(e) => setType(e.target.id)}
+        />
+        <label htmlFor="audio" style={{ paddingLeft: "6px" }}>
+          Audio
         </label>
       </div>
     </>
@@ -37,7 +48,7 @@ export default function ({ type, setType, platform }) {
             platform === "instagram" ? "space-between" : "space-evenly",
         }}
       >
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
           <input
             type="radio"
             id="post"

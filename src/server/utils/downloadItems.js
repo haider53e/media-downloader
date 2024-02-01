@@ -4,13 +4,13 @@ import path from "path";
 import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 
-export default function (links, dir) {
+export default function (links, dir, forcedFormat) {
   console.log(links);
   fs.mkdirSync(dir);
   const downloadedLinks = [];
   let downloadedCount = 0;
 
-  return new Promise((resolve, reject) =>
+  return new Promise((resolve) =>
     links.forEach((element, index) => {
       const extention = path.extname(new URL(element).pathname);
       const filename = index + uuidv4() + extention;
@@ -25,10 +25,10 @@ export default function (links, dir) {
           const buffer = Buffer.concat(data);
           fs.writeFileSync(dir + filename, buffer);
 
-          if (extention === ".mp4") {
+          if ([".mp4", ".m4a", ".mp3"].includes(extention)) {
             downloadedLinks[index] = {
               path: dir + filename,
-              format: "mp4",
+              format: forcedFormat ?? extention.slice(1),
             };
           }
           //

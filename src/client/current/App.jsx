@@ -18,6 +18,7 @@ function capitalizeFirstLetter(string) {
 export default function () {
   const [platform, setPlatform] = useState("instagram");
   const [identifier, setIdentifier] = useState("");
+  const [hiddenIdentifier, setHiddenIdentifier] = useState(null);
   const [type, setType] = useState("post");
   const [quality, setQuality] = useState(2);
   const [items, setItems] = useState([]);
@@ -26,7 +27,6 @@ export default function () {
 
   useEffect(() => {
     setType("post");
-    setQuality(2);
   }, [platform]);
 
   const fetchMedia = async () => {
@@ -39,10 +39,10 @@ export default function () {
           <Alert message={"Provided " + reqRegex.name + " is not valid."} />
         );
 
-      const tempIdentifier = identifier;
-
-      if (type === "highlights") setType("highlightsGroups");
-      setIdentifier("");
+      if (type === "highlights") {
+        setType("highlightsGroups");
+        setHiddenIdentifier(null);
+      }
       setStep(2);
 
       let url = SERVER + "api/v1/" + platform + "/" + type;
@@ -50,7 +50,10 @@ export default function () {
 
       let response = await fetch(url, {
         method: "POST",
-        body: JSON.stringify({ identifier: tempIdentifier, quality }),
+        body: JSON.stringify({
+          identifier: hiddenIdentifier || identifier,
+          quality,
+        }),
       });
       response = await response.json();
       // console.log(response)
@@ -118,8 +121,8 @@ export default function () {
                   {step === 4 && (
                     <HighlightGroups
                       items={items}
-                      identifier={identifier}
-                      setIdentifier={setIdentifier}
+                      identifier={hiddenIdentifier}
+                      setIdentifier={setHiddenIdentifier}
                     />
                   )}
                   <SelectQuality quality={quality} setQuality={setQuality} />

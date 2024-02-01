@@ -19,7 +19,7 @@ export const regex = {
       groupForApi: 1,
     },
     highlights: {
-      regex: /^\d{17}$/,
+      regex: /^\d{15,20}$/,
       name: "highlights group id",
       groupForDir: 0,
       groupForApi: 0,
@@ -27,6 +27,13 @@ export const regex = {
     highlightsGroups: {
       regex: /^@?([a-z0-9._]{1,30})$/,
       name: "username",
+      groupForDir: 1,
+      groupForApi: 1,
+    },
+    audio: {
+      regex:
+        /^https?:\/\/(?:www\.)?instagram\.com\/reels\/audio\/(\d{15,20})\/?(?:\?.*)?$/,
+      name: "url",
       groupForDir: 1,
       groupForApi: 1,
     },
@@ -44,3 +51,5 @@ export const regex = {
 
 export const userAgent =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36";
+
+export const fixedQuality = ["instagram/highlightsGroups", "instagram/audio"];

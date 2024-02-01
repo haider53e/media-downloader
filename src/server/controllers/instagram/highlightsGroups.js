@@ -35,7 +35,7 @@ export default async function (req, res) {
     }
   );
 
-  const groups = response?.data?.user?.edge_highlight_reels?.edges?.map(
+  const groups = response?.data?.user?.edge_highlight_reels?.edges?.map?.(
     (element) => ({
       id: element.node.id,
       thumbnail: element.node.cover_media_cropped_thumbnail.url,
@@ -43,9 +43,9 @@ export default async function (req, res) {
     })
   );
 
-  const links = groups.map((element) => element.thumbnail);
+  const links = groups?.map?.((element) => element.thumbnail);
 
-  if (!links)
+  if (!links || !links.length)
     return res
       .status(404)
       .json({ error: "No highlights found for provided id." });

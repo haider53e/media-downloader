@@ -1,13 +1,10 @@
 export default function ({ item }) {
   return (
-    <video
+    <audio
       style={{
         width: "300px",
-        height: "300px",
         minWidth: "300px",
-        minHeight: "300px",
         borderRadius: "6px",
-        backgroundColor: "black",
       }}
       controls
       controlsList="nodownload"
@@ -18,6 +15,6 @@ export default function ({ item }) {
       }
     >
       <source src={item.url} />
-    </video>
+    </audio>
   );
 }

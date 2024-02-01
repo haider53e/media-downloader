@@ -1,6 +1,10 @@
 import fs from "fs";
 import asyncHandler from "../utils/asyncHandler.js";
-import { allowedDomains, regex } from "../constants/app.constants.js";
+import {
+  allowedDomains,
+  fixedQuality,
+  regex,
+} from "../constants/app.constants.js";
 
 export default asyncHandler(async function (req, res, next) {
   const prams = req.originalUrl.split("/");
@@ -41,8 +45,10 @@ export default asyncHandler(async function (req, res, next) {
       .json({ error: "Request body is not in a valid JSON format." });
   }
 
-  const quality = req.body.quality;
-  let identifier = req.body.identifier;
+  let quality = req.body.quality;
+  const identifier = req.body.identifier;
+
+  if (fixedQuality.includes(platform + "/" + mediatype)) quality = 3;
 
   if (!quality?.toString().match(/^[1-3]$/))
     return res.status(400).json({ error: "Provide quality in range 1 to 3." });
