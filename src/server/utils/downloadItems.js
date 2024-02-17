@@ -2,7 +2,6 @@ import fs from "fs";
 import https from "https";
 import path from "path";
 import sharp from "sharp";
-import { v4 as uuidv4 } from "uuid";
 
 export default function (links, dir, forcedFormat) {
   console.log(links);
@@ -12,10 +11,12 @@ export default function (links, dir, forcedFormat) {
 
   return new Promise((resolve) =>
     links.forEach((element, index) => {
-      const extention = path.extname(new URL(element).pathname);
-      const filename = index + uuidv4() + extention;
+      const url = typeof element === "string" ? element : element.url;
 
-      https.get(element, function (response) {
+      const extention = path.extname(new URL(url).pathname);
+      const filename = (element.filename || index) + extention;
+
+      https.get(url, function (response) {
         const data = [];
         response.on("data", function (chunk) {
           data.push(chunk);

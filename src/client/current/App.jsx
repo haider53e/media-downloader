@@ -10,6 +10,7 @@ import SelectType from "./SelectType";
 import SelectQuality from "./SelectQuality";
 import HighlightGroups from "./HighlightGroups";
 import { regex } from "./constants";
+import { makeBackendUrl } from "./utils";
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -45,8 +46,7 @@ export default function () {
       }
       setStep(2);
 
-      let url = SERVER + "api/v1/" + platform + "/" + type;
-      if (PROXY) url = PROXY + "/?url=" + url;
+      const url = makeBackendUrl("api/v1/" + platform + "/" + type);
 
       let response = await fetch(url, {
         method: "POST",

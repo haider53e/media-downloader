@@ -1,5 +1,6 @@
-import HighlightGroupImage from "./HighlightGroupImage";
+import Image from "./Image";
 import ScrollingTitle from "./ScrollingTitle";
+import { makeBackendUrl } from "./utils";
 
 export default function ({ items, identifier, setIdentifier }) {
   return (
@@ -15,10 +16,7 @@ export default function ({ items, identifier, setIdentifier }) {
         }}
       >
         {items.map((item) => {
-          item.url =
-            (PROXY ? PROXY + "/" + item.path + "?url=" : "") +
-            SERVER +
-            item.path;
+          item.thumbnail.url = makeBackendUrl(item.thumbnail.path);
 
           return (
             <div
@@ -27,16 +25,33 @@ export default function ({ items, identifier, setIdentifier }) {
                 width: "83px",
                 height: "117px",
                 display: "flex",
+                cursor: "pointer",
                 flexDirection: "column",
               }}
               key={item.thumbnail.path}
               onClick={() => setIdentifier(item.id)}
             >
-              <HighlightGroupImage
-                item={item.thumbnail}
-                identifier={identifier}
-                id={item.id}
-              />
+              <div
+                style={{
+                  width: "83px",
+                  padding: "2px",
+                  borderWidth: "2px",
+                  borderRadius: "50%",
+                  borderStyle: "solid",
+                  borderColor:
+                    identifier === item.id ? "var(--theme)" : "transparent",
+                  // transition: "border-color 400ms ease",
+                }}
+              >
+                <Image
+                  item={item.thumbnail}
+                  imageExtraStyle={{
+                    width: "75px",
+                    height: "75px",
+                    borderRadius: "50%",
+                  }}
+                />
+              </div>
               <ScrollingTitle title={item.title} />
             </div>
           );

@@ -1,6 +1,11 @@
 import Audio from "./Audio";
 import Video from "./Video";
 import Image from "./Image";
+import { makeBackendUrl } from "./utils";
+
+// function componentWithAttributes(Component, attributes) {
+//   return (props) => <Component {...attributes} {...props} />;
+// }
 
 export default function ({ items }) {
   return (
@@ -17,8 +22,7 @@ export default function ({ items }) {
         if (item.format === "mp4") Media = Video;
         else if (["m4a", "mp3"].includes(item.format)) Media = Audio;
 
-        item.url =
-          (PROXY ? PROXY + "/" + item.path + "?url=" : "") + SERVER + item.path;
+        item.url = makeBackendUrl(item.path);
 
         return (
           <div
@@ -30,9 +34,16 @@ export default function ({ items }) {
             }}
             key={item.path}
           >
-            <Media item={item} />
+            <Media
+              item={item}
+              imageExtraStyle={{
+                width: "300px",
+                height: "300px",
+                borderRadius: "6px",
+              }}
+            />
             <a
-              download
+              download={item.path}
               href={item.url + "?download=1"}
               className="btn btn-outline-accent"
               style={{ width: "100%", marginTop: "12px" }}

@@ -29,12 +29,21 @@ export default async function (req, res) {
   );
 
   const info =
-    response?.metadata?.original_sound_info ||
-    response?.metadata?.music_info?.music_asset_info;
+    response?.metadata?.music_info?.music_asset_info ||
+    response?.metadata?.original_sound_info;
+
+  const filename = info?.title
+    ? info?.title + "_by_" + info?.display_artist
+    : info?.original_audio_title + "_by_" + info?.ig_artist?.username;
 
   const links = [
-    info?.progressive_download_url || info?.fast_start_progressive_download_url,
-  ]?.filter(Boolean);
+    {
+      filename: filename.replaceAll(" ", "_"),
+      url:
+        info?.progressive_download_url ||
+        info?.fast_start_progressive_download_url,
+    },
+  ]?.filter((e) => Boolean(e.url));
 
   if (!links || !links.length)
     return res.status(404).json({ error: "No audio found for provided url." });
