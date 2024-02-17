@@ -5,15 +5,33 @@ function send_error($code, $message)
 {
     http_response_code($code);
     header("Content-Type: application/json");
-    echo json_encode(["error" => $message, "error_generated_by" => "proxy"], JSON_UNESCAPED_SLASHES);
-    exit;
+    exit(json_encode(["error" => $message, "error_generated_by" => "proxy"], JSON_UNESCAPED_SLASHES));
+}
+
+function origin_from_url($url)
+{
+    $parsed_url = parse_url($url);
+    if ($parsed_url === false) return null;
+
+    $origin = $parsed_url["scheme"] . "://" . $parsed_url["host"];
+    if (isset($parsed_url["port"])) $origin .= ":" . $parsed_url["port"];
+
+    return $origin;
 }
 
 if (!isset($_REQUEST["url"]))
     send_error(500, "Required perameter 'url' is missing.");
 
-if (!filter_var($_REQUEST["url"], FILTER_VALIDATE_URL))
-    send_error(500, "Provided url is not valid.");
+$is_url_valid = !filter_var($_REQUEST["url"], FILTER_VALIDATE_URL)
+    || !($origin = origin_from_url($_REQUEST["url"]));
+
+if ($is_url_valid)
+    send_error(500, "Provided 'url' is not valid.");
+
+$allowedOrigins = ["http://localhost:3001"];
+
+if (!in_array($origin, $allowedOrigins))
+    send_error(500, "Provided 'url' is not allowed.");
 
 $requestUrl = $_REQUEST["url"];
 $requestHeaders = getallheaders();
@@ -36,7 +54,7 @@ foreach ($requestHeaders as $header => $value) {
 }
 curl_setopt($ch, CURLOPT_HTTPHEADER, $clientHeaders);
 
-// client {body}  => server
+// client {body} => server
 if ($requestMethod === "POST" || $requestMethod === "PUT") {
     $postData = file_get_contents("php://input");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
