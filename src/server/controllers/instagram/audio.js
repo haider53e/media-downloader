@@ -32,13 +32,11 @@ export default async function (req, res) {
     response?.metadata?.music_info?.music_asset_info ||
     response?.metadata?.original_sound_info;
 
-  const filename = info?.title
-    ? info?.title + "_by_" + info?.display_artist
-    : info?.original_audio_title + "_by_" + info?.ig_artist?.username;
-
   const links = [
     {
-      filename: filename.replaceAll(" ", "_"),
+      filename: info?.title
+        ? info?.title + " by " + info?.display_artist?.replaceAll(",", " &")
+        : info?.original_audio_title + " by @" + info?.ig_artist?.username,
       url:
         info?.progressive_download_url ||
         info?.fast_start_progressive_download_url,

@@ -3,7 +3,7 @@ import https from "https";
 import path from "path";
 import sharp from "sharp";
 
-export default function (links, dir, forcedFormat) {
+export default function (links, dir, forcedExt) {
   console.log(links);
   fs.mkdirSync(dir);
   const downloadedLinks = [];
@@ -13,8 +13,9 @@ export default function (links, dir, forcedFormat) {
     links.forEach((element, index) => {
       const url = typeof element === "string" ? element : element.url;
 
-      const extention = path.extname(new URL(url).pathname);
-      const filename = (element.filename || index) + extention;
+      const extention = path.extname(new URL(url).pathname).slice(1);
+      const filename =
+        (element.filename || index) + "." + (forcedExt || extention);
 
       https.get(url, function (response) {
         const data = [];
@@ -26,10 +27,10 @@ export default function (links, dir, forcedFormat) {
           const buffer = Buffer.concat(data);
           fs.writeFileSync(dir + filename, buffer);
 
-          if ([".mp4", ".m4a", ".mp3"].includes(extention)) {
+          if (["mp4", "m4a", "mp3"].includes(extention)) {
             downloadedLinks[index] = {
               path: dir + filename,
-              format: forcedFormat ?? extention.slice(1),
+              format: forcedExt || extention,
             };
           }
           //

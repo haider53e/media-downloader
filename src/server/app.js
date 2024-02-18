@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import setContentType from "./middlewares/setContentType.middleware.js";
+import setAttachment from "./middlewares/setAttachment.middleware.js";
 import setCORPHeader from "./middlewares/setCORPHeader.middleware.js";
 import instagramRoutes from "./routes/instagram.routes.js";
 import threadsRoutes from "./routes/threads.routes.js";
@@ -14,6 +14,6 @@ app.use(setCORPHeader);
 app.use("/api/v1/instagram", instagramRoutes);
 app.use("/api/v1/threads", threadsRoutes);
 
-app.use("/media", setContentType, express.static("media"));
+app.use("/media", setAttachment, express.static("media"));
 
 export default app;
