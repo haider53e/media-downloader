@@ -39,7 +39,7 @@ body {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 }
 
 .form-control:focus {
@@ -47,15 +47,16 @@ body {
   box-shadow: 0 0 0 0.25rem #ffffff59;
 }
 
-.nav-link:focus-visible {
-  box-shadow: none;
-}
-
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
+}
+
+.footer,
+.download {
+  color: white;
 }
 
 .footer ::selection,
@@ -100,36 +101,40 @@ input:-webkit-autofill:active {
   }
 }
 
-.toggle {
-  background-color: #fff8;
-}
-
 .nav {
   position: relative;
-  flex-wrap: nowrap;
+  gap: 6px;
   .slider {
-    position: absolute;
-    transition: left cubic-bezier(0.65, 0.05, 0.36, 1) 0.4s;
-    border-radius: 30px;
-    background-color: white;
     height: 100%;
+    position: absolute;
+    border-radius: 6px;
+    background-color: white;
+    transition: width cubic-bezier(0.65, 0.05, 0.36, 1) 0.4s,
+      left cubic-bezier(0.65, 0.05, 0.36, 1) 0.4s,
+      top cubic-bezier(0.65, 0.05, 0.36, 1) 0.4s;
   }
   .nav-item {
-    display: inline-block;
     z-index: 1;
     position: relative;
+    display: inline-block;
     transition: color 400ms;
   }
   .nav-link {
-    width: 50%;
+    padding: 6px;
     color: white;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 6px;
     transition: color 600ms;
+    border: 1px solid #fff9;
     &:hover {
       color: white;
     }
     &.active {
       color: black;
-      background-color: transparent;
+    }
+    &:focus-visible {
+      box-shadow: none;
     }
   }
 }
@@ -312,10 +317,10 @@ input:-webkit-autofill:active {
 }
 
 @mixin thumb {
-  height: 15px;
   width: 15px;
-  background: #fff;
+  height: 15px;
   border: none;
+  background: #fff;
   border-radius: 50%;
 }
 
@@ -335,4 +340,84 @@ input[type="range"] {
   &::-moz-range-thumb {
     @include thumb;
   }
+}
+
+.text-accent {
+  color: white;
+}
+
+@media (min-width: 576px) {
+  .col-sm-5 {
+    flex: 0 0 auto;
+    width: 46.66666667%;
+  }
+}
+@media (min-width: 768px) {
+  .col-md-5 {
+    flex: 0 0 auto;
+    width: 46.66666667%;
+  }
+}
+
+input[type="radio"],
+input[type="range"] {
+  cursor: pointer;
+  accent-color: white;
+}
+
+label {
+  user-select: none;
+  cursor: pointer;
+}
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  padding-top: 10px;
+  user-select: none;
+}
+.marquee > a {
+  display: inline-block;
+  animation: marquee1 linear infinite alternate;
+}
+.marquee > a > div {
+  animation: marquee2 linear infinite alternate;
+  animation-duration: inherit;
+}
+
+@keyframes marquee1 {
+  0% {
+    margin-left: 0;
+  }
+  20% {
+    margin-left: 0;
+  }
+  80% {
+    margin-left: 100%;
+  }
+  100% {
+    margin-left: 100%;
+  }
+}
+@keyframes marquee2 {
+  0% {
+    margin-left: 0;
+  }
+  20% {
+    margin-left: 0;
+  }
+  80% {
+    margin-left: -100%;
+  }
+  100% {
+    margin-left: -100%;
+  }
+}
+
+audio::-webkit-media-controls-enclosure {
+  border-radius: 6px;
+}
+
+.navbar > .container-fluid {
+  align-items: normal;
 }

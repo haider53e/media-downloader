@@ -61,7 +61,7 @@ export default async function (req, res) {
     (element, index) => (element.thumbnail = downloadedLinks[index])
   );
 
-  if (process.env.LOG.charAt(0) === "Y") remote(req);
+  if (process.env.LOG === "Y") remote(req);
 
   const final = { type: "highlightsGroups", items: groups };
   fs.writeFileSync(dir + ".items", JSON.stringify(final));

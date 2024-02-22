@@ -1,4 +1,4 @@
-export default function ({ item }) {
+export default function ({ item, extraVideoStyles }) {
   return (
     <video
       style={{
@@ -7,7 +7,7 @@ export default function ({ item }) {
         minWidth: "300px",
         minHeight: "300px",
         borderRadius: "6px",
-        backgroundColor: "black",
+        ...extraVideoStyles
       }}
       controls
       controlsList="nodownload"

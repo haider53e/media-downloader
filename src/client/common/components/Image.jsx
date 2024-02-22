@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-export default function ({ item }) {
+export default function ({ item, extraImageStyles }) {
   const blur = useRef();
 
   const size = { width: "100%", height: "100%" };
@@ -10,14 +10,11 @@ export default function ({ item }) {
   return (
     <div
       style={{
-        width: "300px",
-        height: "300px",
-        backgroundColor: "#fff8",
-        borderRadius: "6px",
-        overflow: "hidden",
         display: "flex",
         flexWrap: "wrap",
+        overflow: "hidden",
         placeContent: "center",
+        ...extraImageStyles,
       }}
     >
       <img
@@ -30,7 +27,7 @@ export default function ({ item }) {
           blur.current.style.display = "none";
           e.target.style.removeProperty("display");
         }}
-        style={Object.assign({ display: "none" }, size)}
+        style={{ ...size, display: "none" }}
         src={item.url}
       ></img>
     </div>

@@ -32,7 +32,9 @@ export default function () {
             <Route
               key={platform}
               path={BASE + "experimental/" + platform}
-              element={<Download platform={platform} platforms={platforms} />}
+              element={
+                <Download selectedPlatform={platform} platforms={platforms} />
+              }
             />
           ))}
           <Route

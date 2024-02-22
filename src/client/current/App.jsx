@@ -1,27 +1,24 @@
 import { useState, useEffect } from "react";
-import Spinner from "./Spinner";
 import Header from "./Header";
 import Footer from "./Footer";
-import Media from "./Media";
 import Alert from "./Alert";
 import "./App.scss";
-import SelectPlatform from "./SelectPlatform";
-import SelectType from "./SelectType";
-import SelectQuality from "./SelectQuality";
-import HighlightGroups from "./HighlightGroups";
-import { regex } from "./constants";
-import { makeBackendUrl } from "./utils";
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+import Media from "../common/components/Media";
+import Spinner from "../common/components/Spinner";
+import SelectType from "../common/components/SelectType";
+import SelectQuality from "../common/components/SelectQuality";
+import SelectPlatform from "../common/components/SelectPlatform";
+import HighlightGroups from "../common/components/HighlightGroups";
+import InstagramMediaType from "./MediaTypes/Instagram";
+import ThreadsMediaType from "./MediaTypes/Threads";
+import { regex } from "../common/constants";
+import { makeBackendUrl, capitalizeFirstLetter } from "../common/utils";
 
 export default function () {
   const [platform, setPlatform] = useState("instagram");
   const [identifier, setIdentifier] = useState("");
-  const [hiddenIdentifier, setHiddenIdentifier] = useState(null);
   const [type, setType] = useState("post");
-  const [quality, setQuality] = useState(2);
+  const [quality, setQuality] = useState(1);
   const [items, setItems] = useState([]);
   const [step, setStep] = useState(1);
   const [alert, setAlert] = useState(null);
@@ -33,7 +30,6 @@ export default function () {
   const fetchMedia = async () => {
     setAlert(null);
     try {
-      // console.log(identifier)
       const reqRegex = regex[platform][type];
       if (!identifier.match(reqRegex.regex))
         return setAlert(
@@ -42,7 +38,7 @@ export default function () {
 
       if (type === "highlights") {
         setType("highlightsGroups");
-        setHiddenIdentifier(null);
+        setIdentifier("");
       }
       setStep(2);
 
@@ -50,10 +46,7 @@ export default function () {
 
       let response = await fetch(url, {
         method: "POST",
-        body: JSON.stringify({
-          identifier: hiddenIdentifier || identifier,
-          quality,
-        }),
+        body: JSON.stringify({ identifier, quality: Number(quality) }),
       });
       response = await response.json();
       // console.log(response)
@@ -65,6 +58,7 @@ export default function () {
         setAlert(null);
         setItems(response.items);
         if (response.type === "highlightsGroups") {
+          setIdentifier("");
           setType("highlights");
           setStep(4);
         }
@@ -88,54 +82,80 @@ export default function () {
             <div className="py-3">
               <div className="row">
                 <div>
-                  <h5 className="card-title text-accent text-center">
+                  <h5 className="card-title text-center text-accent">
                     Download Photos & Videos
                   </h5>
-                  <p className="mt-2 mb-0 card-text text-accent text-center">
+                  <p className="mt-2 mb-0 card-text text-center text-accent">
                     from Instagram & Threads
                   </p>
                   {step !== 4 && (
-                    <>
-                      <SelectPlatform
-                        platform={platform}
-                        setPlatform={setPlatform}
-                      />
-                      <input
-                        type="text"
-                        className="mt-2 form-control"
-                        placeholder={capitalizeFirstLetter(
-                          regex[platform][type]?.name || ""
+                    <SelectPlatform
+                      platform={platform}
+                      setPlatform={setPlatform}
+                    />
+                  )}
+                  <input
+                    type="text"
+                    className="mt-2 form-control"
+                    placeholder={regex[platform][type].name
+                      .split(" ")
+                      .map(capitalizeFirstLetter)
+                      .join(" ")}
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && fetchMedia()}
+                  />
+                  {step !== 4 && (
+                    <SelectType
+                      type={type}
+                      setType={setType}
+                      platform={platform}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          justifyContent:
+                            platform === "instagram"
+                              ? "space-between"
+                              : "space-evenly",
+                        }}
+                      >
+                        {platform === "instagram" && (
+                          <InstagramMediaType type={type} setType={setType} />
                         )}
-                        value={identifier}
-                        onChange={(e) => setIdentifier(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && fetchMedia()}
-                      />
-
-                      <SelectType
-                        type={type}
-                        setType={setType}
-                        platform={platform}
-                      />
-                    </>
+                        {platform === "threads" && (
+                          <ThreadsMediaType type={type} setType={setType} />
+                        )}
+                      </div>
+                    </SelectType>
                   )}
                   {step === 4 && (
                     <HighlightGroups
                       items={items}
-                      identifier={hiddenIdentifier}
-                      setIdentifier={setHiddenIdentifier}
+                      identifier={identifier}
+                      setIdentifier={setIdentifier}
+                      activeBorderColor={"var(--theme)"}
                     />
                   )}
                   <SelectQuality quality={quality} setQuality={setQuality} />
                   {(step === 1 || step === 3 || step === 4) && (
                     <button
                       onClick={fetchMedia}
-                      className="d-grid gap-2 col-6 col-sm-5 mx-auto btn btn-outline-accent mt-4"
+                      className="d-grid gap-2 col-6 col-sm-5 mx-auto mt-4 btn btn-accent"
                     >
                       Fetch Media
                     </button>
                   )}
                   {step === 2 && <Spinner />}
-                  {step === 3 && <Media items={items} />}
+                  {step === 3 && (
+                    <Media
+                      items={items}
+                      downloadBtnClass={"btn-accent"}
+                      extraImageStyles={{ backgroundColor: "black" }}
+                      extraVideoStyles={{ backgroundColor: "black" }}
+                    />
+                  )}
                 </div>
               </div>
             </div>

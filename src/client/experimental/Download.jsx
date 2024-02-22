@@ -1,31 +1,15 @@
 import { useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
-import classNames from "classnames";
 import Form from "./Form";
+import Toggle from "./Toggle";
+import { capitalizeFirstLetter } from "../common/utils";
 
-export default function ({ platform, platforms }) {
+export default function ({ selectedPlatform, platforms }) {
   const global = useRef({});
 
-  const toggleItems = platforms.map((p) => (
-    <Link
-      key={p}
-      to={BASE + "experimental/" + p}
-      className={classNames(
-        "nav-link rounded-5 text-decoration-none text-center z-1",
-        p === platform && "active"
-      )}
-    >
-      {p.charAt(0).toUpperCase() + p.slice(1)}
-    </Link>
-  ));
-
   useEffect(() => {
-    document.body.classList.add(platform);
-    return () => document.body.classList.remove(platform);
-  }, [platform]);
-
-  const itemWidth = 100 / platforms.length;
-  const sliderLeft = itemWidth * platforms.indexOf(platform);
+    document.body.classList.add(selectedPlatform);
+    return () => document.body.classList.remove(selectedPlatform);
+  }, [selectedPlatform]);
 
   return (
     <div className="download">
@@ -35,31 +19,29 @@ export default function ({ platform, platforms }) {
             <div className="row">
               <div>
                 <div className="d-grid gap-2 col-md-6 mx-auto mt-3 mb-4">
-                  <div className="p-1 small rounded-5 shadow-sm toggle">
-                    <ul className="nav nav-fill">
-                      <div
-                        className="slider"
-                        style={{
-                          left: sliderLeft + "%",
-                          width: itemWidth + "%",
-                        }}
-                      ></div>
-                      {toggleItems}
-                    </ul>
-                  </div>
+                  <Toggle
+                    selectedItem={selectedPlatform}
+                    items={platforms.map((platform) => ({
+                      name: platform,
+                      path: BASE + "experimental/" + platform,
+                    }))}
+                    maximumCoulmns={2}
+                  />
                 </div>
-                <h3 className="card-title text-white text-center">
+                <h3 className="card-title text-center">
                   Download Photos & Videos
                 </h3>
                 <p
-                  className="mt-2 mb-0 card-text text-white text-center"
+                  className="mt-2 mb-0 card-text text-center"
                   style={{ fontSize: "20px" }}
                 >
-                  {"from " +
-                    platform.charAt(0).toUpperCase() +
-                    platform.slice(1)}
+                  {"from " + capitalizeFirstLetter(selectedPlatform)}
                 </p>
-                <Form platform={platform} global={global} key={platform} />
+                <Form
+                  platform={selectedPlatform}
+                  global={global}
+                  key={selectedPlatform}
+                />
               </div>
             </div>
           </div>

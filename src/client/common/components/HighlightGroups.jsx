@@ -1,8 +1,13 @@
 import Image from "./Image";
 import ScrollingTitle from "./ScrollingTitle";
-import { makeBackendUrl } from "./utils";
+import { makeBackendUrl } from "../utils";
 
-export default function ({ items, identifier, setIdentifier }) {
+export default function ({
+  items,
+  identifier,
+  setIdentifier,
+  activeBorderColor,
+}) {
   return (
     <div className="d-grid gap-3 mx-auto mt-4">
       <span className="card-text text-accent text-center">
@@ -39,13 +44,13 @@ export default function ({ items, identifier, setIdentifier }) {
                   borderRadius: "50%",
                   borderStyle: "solid",
                   borderColor:
-                    identifier === item.id ? "var(--theme)" : "transparent",
+                    identifier === item.id ? activeBorderColor : "transparent",
                   // transition: "border-color 400ms ease",
                 }}
               >
                 <Image
                   item={item.thumbnail}
-                  imageExtraStyle={{
+                  extraImageStyles={{
                     width: "75px",
                     height: "75px",
                     borderRadius: "50%",

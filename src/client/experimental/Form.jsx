@@ -1,35 +1,42 @@
 import { useReducer, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
-import Spinner from "./Spinner";
-import Media from "./Media";
+import Media from "../common/components/Media";
+import Spinner from "../common/components/Spinner";
+import SelectType from "../common/components/SelectType";
+import SelectQuality from "../common/components/SelectQuality";
+import HighlightGroups from "../common/components/HighlightGroups";
+import { regex } from "../common/constants";
+import { makeBackendUrl, capitalizeFirstLetter } from "../common/utils";
+import Toggle from "./Toggle";
 
 export default function ({ platform, global }) {
-  global.current[platform] ??= { url: "", quality: 1, items: [], step: 1 };
-
-  const regex = {
-    instagram:
-      /^https?:\/\/(?:www\.)?instagram\.com\/(?:p|reels?|tv)\/[a-zA-Z0-9_-]{11}\/?(?:\?.*)?$/,
-    threads:
-      /^https?:\/\/(?:www\.)?threads\.net\/(?:t|@?[a-z0-9._]{1,30}\/post)\/[a-zA-Z0-9_-]{11}\/?(?:\?.*)?$/,
+  global.current[platform] ??= {
+    identifier: "",
+    quality: 1,
+    items: [],
+    step: 1,
+    type: "post",
   };
 
   function reducer(state, action) {
     return { ...state, [action.type]: action.payload };
   }
 
-  const [state, dispatch] = useReducer(reducer, global.current[platform]);
-
-  const { url, quality, items, step } = state;
+  const [{ identifier, quality, items, step, type }, dispatch] = useReducer(
+    reducer,
+    global.current[platform]
+  );
 
   function intercept(action) {
     dispatch(action);
     global.current[platform][action.type] = action.payload;
   }
 
-  const setUrl = (payload) => intercept({ type: "url", payload });
+  const setIdentifier = (payload) => intercept({ type: "identifier", payload });
   const setQuality = (payload) => intercept({ type: "quality", payload });
   const setItems = (payload) => intercept({ type: "items", payload });
   const setStep = (payload) => intercept({ type: "step", payload });
+  const setType = (payload) => intercept({ type: "type", payload });
 
   function toaster(message, type) {
     if (toast.isActive(message)) return;
@@ -40,24 +47,32 @@ export default function ({ platform, global }) {
 
   useEffect(() => {
     const progress = (range.current.value / range.current.max) * 100;
-    // prettier-ignore
-    range.current.style.background = "linear-gradient(to right, #fff " + progress + "%, #fff8 " + progress + "%)"
+    range.current.style.background =
+      "linear-gradient(to right, #fff " +
+      progress +
+      "%, #fff8 " +
+      progress +
+      "%)";
   }, [quality]);
 
   const fetchMedia = async () => {
     try {
-      if (!url.match(regex[platform]))
-        // console.log(url)
-        return toaster("Provided URL is not valid.", "warn");
+      const reqRegex = regex[platform][type];
+      if (!identifier.match(reqRegex.regex))
+        return toaster("Provided " + reqRegex.name + " is not valid.", "warn");
+
+      if (type === "highlights") {
+        setType("highlightsGroups");
+        setIdentifier("");
+      }
       setStep(2);
 
-      let response = await fetch(
-        (PROXY ? PROXY + "/?url=" : "") + SERVER + "api/v1/media/" + platform,
-        {
-          method: "POST",
-          body: JSON.stringify({ url, quality: parseInt(quality) + 1 }),
-        }
-      );
+      const url = makeBackendUrl("api/v1/" + platform + "/" + type);
+
+      let response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({ identifier, quality: Number(quality) }),
+      });
       response = await response.json();
       // console.log(response)
 
@@ -66,76 +81,85 @@ export default function ({ platform, global }) {
         setStep(1);
       } else {
         setItems(response.items);
-        setStep(3);
+        if (response.type === "highlightsGroups") {
+          setIdentifier("");
+          setType("highlights");
+          setStep(4);
+        }
+        //
+        else setStep(3);
       }
     } catch (e) {
       console.error(e);
       toaster("API is not accessible.", "error");
       setStep(1);
-    } finally {
-      // setUrl("")
     }
   };
+
+  const mediaType = {
+    instagram: [
+      "post",
+      "stories",
+      { name: "highlightsGroups", displayName: "highlights" },
+      "audio",
+    ],
+    threads: ["post"],
+  }[platform];
 
   return (
     <>
       <input
         type="text"
         className="mt-4 form-control"
-        placeholder="URL"
-        id="url"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
+        placeholder={(regex[platform][type]?.name ?? "")
+          .split(" ")
+          .map(capitalizeFirstLetter)
+          .join(" ")}
+        value={identifier}
+        onChange={(e) => setIdentifier(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && fetchMedia()}
       />
-      <div className="d-grid gap-2 col-md-5 mx-auto mt-4">
-        <span className="card-text text-white text-center">
-          Set media quality
-        </span>
-        <input
-          ref={range}
-          type="range"
-          min="0"
-          max="2"
-          value={quality}
-          onChange={(e) => setQuality(e.target.value)}
-          onKeyDown={(event) => event.key === "Enter" && fetchMedia()}
+      {step !== 4 && (
+        <SelectType>
+          <Toggle
+            selectedItem={type}
+            setItem={setType}
+            items={mediaType}
+            maximumCoulmns={2}
+          />
+        </SelectType>
+      )}
+      {step === 4 && (
+        <HighlightGroups
+          items={items}
+          identifier={identifier}
+          setIdentifier={setIdentifier}
+          activeBorderColor={"white"}
         />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <span
-            className="text-white cursor-pointer"
-            onClick={() => setQuality(0)}
-          >
-            Low
-          </span>
-          <span
-            className="text-white cursor-pointer"
-            onClick={() => setQuality(1)}
-          >
-            Medium
-          </span>
-          <span
-            className="text-white cursor-pointer"
-            onClick={() => setQuality(2)}
-          >
-            High
-          </span>
-        </div>
-      </div>
-      {(step === 1 || step === 3) && (
+      )}
+      <SelectQuality
+        quality={quality}
+        setQuality={setQuality}
+        reference={range}
+      />
+      {(step === 1 || step === 3 || step === 4) && (
         <button
           onClick={fetchMedia}
-          className="d-grid gap-2 col-6 col-sm-5 mx-auto btn btn-light mt-4"
+          className="d-grid gap-2 col-6 col-sm-5 mx-auto mt-4 btn btn-light"
         >
           Fetch Media
         </button>
       )}
       {step === 2 && <Spinner />}
-      {step === 3 && <Media items={items} platform={platform} />}
+
+      {step === 3 && (
+        <Media
+          items={items}
+          downloadBtnClass={"btn-light"}
+          extraImageStyles={{ border: "1px solid #fff9" }}
+          extraVideoStyles={{ border: "1px solid #fff9" }}
+        />
+      )}
     </>
   );
 }

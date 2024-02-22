@@ -109,7 +109,7 @@ html.focused ::selection {
   border-color: var(--theme-t50);
 }
 
-.btn-outline-accent {
+.btn-accent {
   --bs-btn-color: var(--theme);
   --bs-btn-border-color: var(--theme);
   --bs-btn-hover-color: white;
@@ -140,8 +140,8 @@ html.focused ::selection {
 
 input[type="radio"],
 input[type="range"] {
-  accent-color: var(--theme);
   cursor: pointer;
+  accent-color: var(--theme);
 }
 
 label {
@@ -196,4 +196,8 @@ label {
 audio::-webkit-media-controls-enclosure {
   border: 1px solid #b2b2b2;
   border-radius: 6px;
+}
+
+.navbar > .container-fluid {
+  align-items: normal;
 }

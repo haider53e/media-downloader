@@ -45,7 +45,7 @@ export default async function (req, res) {
       .status(404)
       .json({ error: "Error occured during downloading files." });
 
-  if (process.env.LOG.charAt(0) === "Y") remote(req);
+  if (process.env.LOG === "Y") remote(req);
 
   const final = { type: "post", items: downloadedLinks };
   fs.writeFileSync(dir + ".items", JSON.stringify(final));

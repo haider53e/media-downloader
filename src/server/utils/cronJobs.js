@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 function checkPostsForRemoval(interval) {
-  // console.log(new Date());
+  console.log(new Date());
   const timeNowMinusInterval = Date.now() - interval;
   //
   const media = path.join(process.cwd(), "media/");
@@ -23,4 +23,5 @@ function checkPostsForRemoval(interval) {
 }
 
 const interval = 30 * 60 * 1000;
-setInterval(() => checkPostsForRemoval(interval), interval);
+if (process.env.CRON === "Y")
+  setInterval(() => checkPostsForRemoval(interval), interval);
