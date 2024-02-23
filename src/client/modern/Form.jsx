@@ -111,7 +111,7 @@ export default function ({ platform, global }) {
       <input
         type="text"
         className="mt-4 form-control"
-        placeholder={(regex[platform][type]?.name ?? "")
+        placeholder={(regex[platform]?.[type]?.name ?? "")
           .split(" ")
           .map(capitalizeFirstLetter)
           .join(" ")}

@@ -23,7 +23,7 @@ export default function ({ selectedPlatform, platforms }) {
                     selectedItem={selectedPlatform}
                     items={platforms.map((platform) => ({
                       name: platform,
-                      path: BASE + "experimental/" + platform,
+                      path: BASE + platform,
                     }))}
                     maximumCoulmns={2}
                   />

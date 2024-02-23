@@ -15,5 +15,6 @@ app.use("/api/v1/instagram", instagramRoutes);
 app.use("/api/v1/threads", threadsRoutes);
 
 app.use("/media", setAttachment, express.static("media"));
+app.use("/classic", (req, res, next) => (req.url = req.url + "/") && next());
 
 export default app;

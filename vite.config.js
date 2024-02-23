@@ -13,7 +13,7 @@ export default defineConfig({
   build: {
     target: "es6",
     rollupOptions: {
-      input: ["/index.html", "/experimental/index.html"],
+      input: ["/index.html", "/classic/index.html"],
     },
   },
   define: {

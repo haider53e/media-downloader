@@ -20,7 +20,7 @@ export default function () {
               backgroundColor: "white",
               border: "1.1px solid black",
             }}
-            href={BASE}
+            href={BASE + "classic"}
           >
             Use Classic Version
           </a>

@@ -31,7 +31,7 @@ export default function () {
           {platforms.map((platform) => (
             <Route
               key={platform}
-              path={BASE + "experimental/" + platform}
+              path={BASE + platform}
               element={
                 <Download selectedPlatform={platform} platforms={platforms} />
               }
@@ -39,9 +39,7 @@ export default function () {
           ))}
           <Route
             path="*"
-            element={
-              <Navigate to={BASE + "experimental/" + random} replace={true} />
-            }
+            element={<Navigate to={BASE + random} replace={true} />}
           />
         </Routes>
       </div>

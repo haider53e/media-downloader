@@ -23,12 +23,11 @@ export default function () {
               borderRadius: "5px",
               color: "var(--theme)",
               textDecoration: "none",
-              backgroundColor: "white",
               border: "1.1px solid var(--theme)",
             }}
-            href={BASE + "experimental/"}
+            href={BASE}
           >
-            Try New Modern Look
+            Use Modern Version
           </a>
         </div>
       </div>
