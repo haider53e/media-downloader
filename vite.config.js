@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import stringer from "./src/server/utils/stringer";
+import makeString from "./src/server/utils/makeString";
 
 const base = ["/", "/media_downloader/"][0];
 const proxy = [false, "https://example.com/proxy.php"][0];
@@ -17,8 +17,8 @@ export default defineConfig({
     },
   },
   define: {
-    BASE: stringer(base),
-    PROXY: stringer(proxy),
-    SERVER: stringer(server),
+    BASE: makeString(base),
+    PROXY: makeString(proxy),
+    SERVER: makeString(server),
   },
 });

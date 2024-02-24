@@ -2,15 +2,13 @@ import { useState, useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Alert from "./Alert";
+import Radio from "./Radio";
 import "./App.scss";
 import Media from "../common/components/Media";
 import Spinner from "../common/components/Spinner";
 import SelectType from "../common/components/SelectType";
 import SelectQuality from "../common/components/SelectQuality";
-import SelectPlatform from "../common/components/SelectPlatform";
 import HighlightGroups from "../common/components/HighlightGroups";
-import InstagramMediaType from "./MediaTypes/Instagram";
-import ThreadsMediaType from "./MediaTypes/Threads";
 import { regex } from "../common/constants";
 import { makeBackendUrl, capitalizeFirstLetter } from "../common/utils";
 
@@ -22,10 +20,6 @@ export default function () {
   const [items, setItems] = useState([]);
   const [step, setStep] = useState(1);
   const [alert, setAlert] = useState(null);
-
-  useEffect(() => {
-    setType("post");
-  }, [platform]);
 
   const fetchMedia = async () => {
     setAlert(null);
@@ -72,6 +66,20 @@ export default function () {
     }
   };
 
+  const mediaType = {
+    instagram: [
+      "post",
+      "stories",
+      { name: "highlightsGroups", displayName: "highlights" },
+      "audio",
+    ],
+    threads: ["post"],
+  }[platform];
+
+  useEffect(() => {
+    setType(mediaType[0].name ?? mediaType[0]);
+  }, [platform]);
+
   return (
     <>
       <Header />
@@ -89,15 +97,29 @@ export default function () {
                     from Instagram & Threads
                   </p>
                   {step !== 4 && (
-                    <SelectPlatform
-                      platform={platform}
-                      setPlatform={setPlatform}
-                    />
+                    <div
+                      className="mt-3"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      <Radio
+                        selectedItem={platform}
+                        setItem={setPlatform}
+                        items={["instagram", "threads"]}
+                        labelStyles={{
+                          paddingLeft: "6px",
+                          marginRight: "16px",
+                        }}
+                      />
+                    </div>
                   )}
                   <input
                     type="text"
                     className="mt-2 form-control"
-                    placeholder={regex[platform][type].name
+                    placeholder={(regex[platform]?.[type]?.name ?? "")
                       .split(" ")
                       .map(capitalizeFirstLetter)
                       .join(" ")}
@@ -121,12 +143,12 @@ export default function () {
                               : "space-evenly",
                         }}
                       >
-                        {platform === "instagram" && (
-                          <InstagramMediaType type={type} setType={setType} />
-                        )}
-                        {platform === "threads" && (
-                          <ThreadsMediaType type={type} setType={setType} />
-                        )}
+                        <Radio
+                          selectedItem={type}
+                          setItem={setType}
+                          items={mediaType}
+                          labelStyles={{ paddingLeft: "6px" }}
+                        />
                       </div>
                     </SelectType>
                   )}
@@ -142,7 +164,7 @@ export default function () {
                   {(step === 1 || step === 3 || step === 4) && (
                     <button
                       onClick={fetchMedia}
-                      className="d-grid gap-2 col-6 col-sm-5 mx-auto mt-4 btn btn-accent"
+                      className="d-grid gap-2 col-6 col-sm-5 mx-auto mt-4 btn btn-outline-accent"
                     >
                       Fetch Media
                     </button>
@@ -151,7 +173,7 @@ export default function () {
                   {step === 3 && (
                     <Media
                       items={items}
-                      downloadBtnClass={"btn-accent"}
+                      downloadBtnClass={"btn-outline-accent"}
                       extraImageStyles={{ backgroundColor: "black" }}
                       extraVideoStyles={{ backgroundColor: "black" }}
                     />

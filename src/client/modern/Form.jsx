@@ -8,6 +8,7 @@ import HighlightGroups from "../common/components/HighlightGroups";
 import { regex } from "../common/constants";
 import { makeBackendUrl, capitalizeFirstLetter } from "../common/utils";
 import Toggle from "./Toggle";
+import formatString from "../../server/utils/formatString";
 
 export default function ({ platform, global }) {
   global.current[platform] ??= {
@@ -47,12 +48,11 @@ export default function ({ platform, global }) {
 
   useEffect(() => {
     const progress = (range.current.value / range.current.max) * 100;
-    range.current.style.background =
-      "linear-gradient(to right, #fff " +
-      progress +
-      "%, #fff8 " +
-      progress +
-      "%)";
+    range.current.style.background = formatString(
+      "linear-gradient(to right, #fff {0}%, #fff8 {1}%)",
+      progress,
+      progress
+    );
   }, [quality]);
 
   const fetchMedia = async () => {
@@ -125,7 +125,8 @@ export default function ({ platform, global }) {
             selectedItem={type}
             setItem={setType}
             items={mediaType}
-            maximumCoulmns={2}
+            maxCoulmns={2}
+            gap={8}
           />
         </SelectType>
       )}
@@ -151,7 +152,6 @@ export default function ({ platform, global }) {
         </button>
       )}
       {step === 2 && <Spinner />}
-
       {step === 3 && (
         <Media
           items={items}

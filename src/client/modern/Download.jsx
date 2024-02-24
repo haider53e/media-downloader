@@ -25,7 +25,8 @@ export default function ({ selectedPlatform, platforms }) {
                       name: platform,
                       path: BASE + platform,
                     }))}
-                    maximumCoulmns={2}
+                    maxCoulmns={2}
+                    gap={8}
                   />
                 </div>
                 <h3 className="card-title text-center">
