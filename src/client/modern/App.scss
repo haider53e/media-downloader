@@ -101,6 +101,18 @@ input:-webkit-autofill:active {
   }
 }
 
+.btn-light {
+  --bs-btn-bg: white;
+  --bs-btn-border-color: white;
+  --bs-btn-disabled-bg: white;
+  --bs-btn-disabled-border-color: white;
+  &:focus-visible {
+    background-color: var(--bs-btn-bg);
+    border-color: var(--bs-btn-border-color);
+    box-shadow: 0 0 0 0.25rem #ffffff59;
+  }
+}
+
 .toggle {
   gap: 8px;
   position: relative;
@@ -127,7 +139,8 @@ input:-webkit-autofill:active {
       color: black;
     }
     &:focus-visible {
-      box-shadow: 0 0 0 0.25rem #ffffff59;
+      outline: none;
+      background-color: #ffffff59;
     }
     overflow: hidden;
     white-space: nowrap;
@@ -178,8 +191,11 @@ input:-webkit-autofill:active {
   transition: 0.5s;
 }
 
-.social-icon-link:hover {
-  transform: translateY(-10px);
+.social-icon-link {
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-10px);
+  }
 }
 
 .menu-link {
@@ -321,6 +337,15 @@ input:-webkit-autofill:active {
   transition: box-shadow 0.15s ease-in-out;
 }
 
+@mixin thumbshadow {
+  &::-webkit-slider-thumb {
+    box-shadow: 0 0 0 0.25rem #ffffff59;
+  }
+  &::-moz-range-thumb {
+    box-shadow: 0 0 0 0.25rem #ffffff59;
+  }
+}
+
 input[type="range"] {
   @include noappearence;
   height: 6px;
@@ -338,13 +363,13 @@ input[type="range"] {
     @include thumb;
   }
 
-  &:active,
   &:focus-visible {
-    &::-webkit-slider-thumb {
-      box-shadow: 0 0 0 0.25rem #ffffff59;
-    }
-    &::-moz-range-thumb {
-      box-shadow: 0 0 0 0.25rem #ffffff59;
+    @include thumbshadow;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      @include thumbshadow;
     }
   }
 }
@@ -372,9 +397,9 @@ input[type="range"] {
   accent-color: white;
 }
 
-label {
-  user-select: none;
+.quality-option {
   cursor: pointer;
+  user-select: none;
 }
 
 .marquee {
@@ -427,4 +452,19 @@ audio::-webkit-media-controls-enclosure {
 
 .navbar > .container-fluid {
   align-items: normal;
+}
+
+.promo {
+  color: black;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 1px 6px;
+  user-select: none;
+  border-radius: 5px;
+  text-decoration: none;
+  border: 1.1px solid black;
+  &:focus-visible {
+    color: white;
+    background-color: black;
+  }
 }

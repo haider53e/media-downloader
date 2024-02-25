@@ -11,30 +11,37 @@ export default function ({ selectedItem, setItem, items, maxCoulmns, gap }) {
     const name = item.name ?? item;
     itemNames.push(name);
 
-    const classes = classNames(
-      "text-decoration-none text-center z-1 toggle-item",
-      name === selectedItem && "active"
-    );
-
-    const width = formatString(
-      "calc((100% - {0}px) / {1})",
-      totalCoulmnsGap,
-      maxCoulmns
-    );
+    const commonAttributes = {
+      key: name,
+      tabIndex: name === selectedItem ? -1 : 0,
+      style: {
+        width: formatString(
+          "calc((100% - {0}px) / {1})",
+          totalCoulmnsGap,
+          maxCoulmns
+        ),
+      },
+      className: classNames(
+        "text-decoration-none text-center z-1 toggle-item",
+        name === selectedItem && "active"
+      ),
+    };
 
     if (item.path)
       return (
-        <Link key={name} className={classes} to={item.path} style={{ width }}>
+        <Link
+          {...commonAttributes}
+          to={item.path}
+          onClick={(e) => e.target.blur()}
+        >
           {capitalizeFirstLetter(item.displayName ?? name)}
         </Link>
       );
 
     return (
       <button
-        key={name}
-        className={classes}
-        onClick={() => setItem(name)}
-        style={{ width }}
+        {...commonAttributes}
+        onClick={(e) => !e.target.blur() && setItem(name)}
       >
         {capitalizeFirstLetter(item.displayName ?? name)}
       </button>

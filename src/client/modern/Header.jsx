@@ -1,6 +1,6 @@
 export default function () {
   return (
-    <div className="navbar">
+    <header className="navbar">
       <div className="container-fluid justify-content-center">
         <div style={{ padding: "5px 10px" }}>
           <span className="text-black" style={{ fontSize: "20px" }}>
@@ -8,24 +8,11 @@ export default function () {
           </span>
         </div>
         <div style={{ height: "100%" }}>
-          <a
-            style={{
-              color: "black",
-              fontSize: "13px",
-              fontWeight: "400",
-              padding: "1px 6px",
-              userSelect: "none",
-              borderRadius: "5px",
-              textDecoration: "none",
-              backgroundColor: "white",
-              border: "1.1px solid black",
-            }}
-            href={BASE + "classic"}
-          >
+          <a className="promo" href={BASE + "classic"}>
             Use Classic Version
           </a>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

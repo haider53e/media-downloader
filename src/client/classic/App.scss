@@ -19,6 +19,10 @@
 }
 
 :focus-visible {
+  outline-offset: 3px;
+  outline-color: var(--theme);
+}
+.promo:focus-visible {
   outline: none;
 }
 
@@ -144,9 +148,9 @@ input[type="range"] {
   accent-color: var(--theme);
 }
 
-label {
-  user-select: none;
+.quality-option {
   cursor: pointer;
+  user-select: none;
 }
 
 .marquee {
@@ -200,4 +204,19 @@ audio::-webkit-media-controls-enclosure {
 
 .navbar > .container-fluid {
   align-items: normal;
+}
+
+.promo {
+  font-size: 13px;
+  font-weight: 400;
+  padding: 1px 6px;
+  user-select: none;
+  border-radius: 5px;
+  color: var(--theme);
+  text-decoration: none;
+  border: 1.1px solid var(--theme);
+  &:focus-visible {
+    color: white;
+    background-color: var(--theme);
+  }
 }

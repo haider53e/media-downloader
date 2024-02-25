@@ -1,6 +1,6 @@
 export default function () {
   return (
-    <div
+    <footer
       className="navbar"
       style={{
         background: "var(--theme-t80)",
@@ -27,6 +27,6 @@ export default function () {
           </a>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }

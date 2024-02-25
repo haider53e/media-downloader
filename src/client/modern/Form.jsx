@@ -110,6 +110,7 @@ export default function ({ platform, global }) {
     <>
       <input
         type="text"
+        name="identifier"
         className="mt-4 form-control"
         placeholder={(regex[platform]?.[type]?.name ?? "")
           .split(" ")

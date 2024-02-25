@@ -18,9 +18,15 @@ export default function ({ quality, setQuality, reference }) {
           justifyContent: "space-between",
         }}
       >
-        <label onClick={() => setQuality(0)}>Low</label>
-        <label onClick={() => setQuality(1)}>Medium</label>
-        <label onClick={() => setQuality(2)}>High</label>
+        <span className="quality-option" onClick={() => setQuality(0)}>
+          Low
+        </span>
+        <span className="quality-option" onClick={() => setQuality(1)}>
+          Medium
+        </span>
+        <span className="quality-option" onClick={() => setQuality(2)}>
+          High
+        </span>
       </div>
     </div>
   );

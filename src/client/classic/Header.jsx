@@ -1,6 +1,6 @@
 export default function () {
   return (
-    <div
+    <header
       className="navbar"
       style={{
         background: "var(--theme-t80)",
@@ -14,23 +14,11 @@ export default function () {
           </span>
         </div>
         <div style={{ height: "100%" }}>
-          <a
-            style={{
-              fontSize: "13px",
-              fontWeight: "400",
-              padding: "1px 6px",
-              userSelect: "none",
-              borderRadius: "5px",
-              color: "var(--theme)",
-              textDecoration: "none",
-              border: "1.1px solid var(--theme)",
-            }}
-            href={BASE}
-          >
+          <a className="promo" href={BASE}>
             Use Modern Version
           </a>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
