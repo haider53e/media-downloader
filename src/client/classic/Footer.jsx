@@ -7,10 +7,10 @@ export default function () {
         borderTop: "1px solid var(--theme-t50)",
       }}
     >
-      <div className="container-fluid" style={{ justifyContent: "center" }}>
+      <div className="container-fluid justify-content-center">
         <div style={{ padding: "6px 10px" }}>
           <a
-            className="text-accent"
+            className="text-accent d-flex"
             target="_blank"
             rel="noopener noreferrer"
             href="https://ueso.000webhostapp.com/github-redirect/repo/683378378"

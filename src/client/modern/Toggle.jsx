@@ -69,7 +69,7 @@ export default function ({ selectedItem, setItem, items, maxCoulmns, gap }) {
   // console.log({ itemHeight, currentRow, sliderTop });
 
   return (
-    <ul className="nav toggle">
+    <ul className="nav toggle" style={{ gap: gap + "px" }}>
       <div
         className="slider"
         // prettier-ignore

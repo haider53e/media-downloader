@@ -45,7 +45,6 @@ export default function ({
                   borderStyle: "solid",
                   borderColor:
                     identifier === item.id ? activeBorderColor : "transparent",
-                  // transition: "border-color 400ms ease",
                 }}
               >
                 <Image

@@ -17,10 +17,6 @@
   src: url("/instagramsans.ttf");
 }
 
-:focus-visible {
-  outline: none;
-}
-
 html,
 body {
   font-family: "Instagram Sans";
@@ -104,17 +100,19 @@ input:-webkit-autofill:active {
 .btn-light {
   --bs-btn-bg: white;
   --bs-btn-border-color: white;
-  --bs-btn-disabled-bg: white;
-  --bs-btn-disabled-border-color: white;
+  --bs-btn-hover-bg: white;
+  --bs-btn-hover-border-color: white;
+  --bs-btn-active-bg: #d3d4d5;
+  --bs-btn-active-border-color: #d3d4d5;
+  background-clip: padding-box;
   &:focus-visible {
+    border-color: transparent;
     background-color: var(--bs-btn-bg);
-    border-color: var(--bs-btn-border-color);
     box-shadow: 0 0 0 0.25rem #ffffff59;
   }
 }
 
 .toggle {
-  gap: 8px;
   position: relative;
   .slider {
     position: absolute;
@@ -189,11 +187,11 @@ input:-webkit-autofill:active {
   margin: 0 10px;
   display: inline-block;
   transition: 0.5s;
-}
-
-.social-icon-link {
-  &:hover,
+  &:hover {
+    transform: translateY(-10px);
+  }
   &:focus-visible {
+    outline: none;
     transform: translateY(-10px);
   }
 }
@@ -351,7 +349,6 @@ input[type="range"] {
   height: 6px;
   margin: 5px 0;
   cursor: pointer;
-  outline: none;
   border-radius: 3px;
 
   &::-webkit-slider-thumb {
@@ -363,14 +360,13 @@ input[type="range"] {
     @include thumb;
   }
 
-  &:focus-visible {
+  &.active {
     @include thumbshadow;
   }
-
-  @media (hover: hover) {
-    &:hover {
-      @include thumbshadow;
-    }
+  
+  &:focus-visible {
+    outline: none;
+    @include thumbshadow;
   }
 }
 
@@ -464,7 +460,9 @@ audio::-webkit-media-controls-enclosure {
   text-decoration: none;
   border: 1.1px solid black;
   &:focus-visible {
+    outline: none;
     color: white;
-    background-color: black;
+    border-color: #3498db;
+    background-color: #3498db;
   }
 }

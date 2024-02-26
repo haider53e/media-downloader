@@ -22,9 +22,6 @@
   outline-offset: 3px;
   outline-color: var(--theme);
 }
-.promo:focus-visible {
-  outline: none;
-}
 
 html,
 body {
@@ -119,10 +116,10 @@ html.focused ::selection {
   --bs-btn-hover-color: white;
   --bs-btn-hover-bg: var(--theme);
   --bs-btn-hover-border-color: var(--theme);
-  --bs-btn-focus-shadow-rgb: transparent;
   --bs-btn-active-color: white;
   --bs-btn-active-bg: var(--theme);
   --bs-btn-active-border-color: var(--theme);
+  --bs-btn-focus-shadow-rgb: transparent;
 }
 
 .text-accent {
@@ -216,6 +213,7 @@ audio::-webkit-media-controls-enclosure {
   text-decoration: none;
   border: 1.1px solid var(--theme);
   &:focus-visible {
+    outline: none;
     color: white;
     background-color: var(--theme);
   }

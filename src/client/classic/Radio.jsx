@@ -5,12 +5,13 @@ export default ({ selectedItem, setItem, items, labelStyles }) =>
     const name = item.name ?? item;
 
     return (
-      <div key={name} style={{ display: "flex", alignItems: "center" }}>
+      <div key={name} className="d-flex align-items-center">
         <input
           type="radio"
           id={name}
           checked={selectedItem === name}
-          onChange={(e) => setItem(e.target.id)}
+          onChange={() => setItem(name)}
+          onKeyDown={(e) => e.key === "Enter" && setItem(name)}
         />
         <label htmlFor={name} style={labelStyles}>
           {capitalizeFirstLetter(item.displayName ?? name)}
