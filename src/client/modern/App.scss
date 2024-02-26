@@ -1,16 +1,14 @@
-@layer bootstrap {
-  @import "bootstrap/scss/bootstrap-reboot";
+@import "bootstrap/scss/bootstrap-reboot";
 
-  @import "bootstrap/scss/containers";
-  @import "bootstrap/scss/grid";
-  @import "bootstrap/scss/forms";
-  @import "bootstrap/scss/buttons";
-  @import "bootstrap/scss/nav";
-  @import "bootstrap/scss/navbar";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
 
-  @import "bootstrap/scss/utilities";
-  @import "bootstrap/scss/utilities/api";
-}
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/utilities/api";
 
 @font-face {
   font-family: "Instagram Sans";
@@ -60,17 +58,10 @@ input:-webkit-autofill:active {
   background: #ffffff59;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
 .loading {
-  animation-timing-function: linear;
-  animation-name: loading;
-  animation-iteration-count: infinite;
-  animation-duration: 0.75s;
-  height: 30px;
   width: 30px;
+  height: 30px;
+  animation: loading linear infinite 0.75s;
 }
 
 .loading > :first-child {
@@ -363,7 +354,7 @@ input[type="range"] {
   &.active {
     @include thumbshadow;
   }
-  
+
   &:focus-visible {
     outline: none;
     @include thumbshadow;
@@ -393,7 +384,7 @@ input[type="range"] {
   accent-color: white;
 }
 
-.quality-option {
+.input-option {
   cursor: pointer;
   user-select: none;
 }

@@ -7,7 +7,7 @@ export default function ({ item, extraVideoStyles }) {
         minWidth: "300px",
         minHeight: "300px",
         borderRadius: "6px",
-        ...extraVideoStyles
+        ...extraVideoStyles,
       }}
       controls
       controlsList="nodownload"

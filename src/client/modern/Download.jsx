@@ -18,7 +18,7 @@ export default function ({ selectedPlatform, platforms }) {
           <div className="py-3">
             <div className="row">
               <div>
-                <div className="d-grid gap-2 col-md-6 mx-auto mt-3 mb-4">
+                <div className="d-grid gap-2 col-md-5 mx-auto mt-3 mb-4">
                   <Toggle
                     selectedItem={selectedPlatform}
                     items={platforms.map((platform) => ({

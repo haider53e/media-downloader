@@ -13,7 +13,7 @@ export default ({ selectedItem, setItem, items, labelStyles }) =>
           onChange={() => setItem(name)}
           onKeyDown={(e) => e.key === "Enter" && setItem(name)}
         />
-        <label htmlFor={name} style={labelStyles}>
+        <label htmlFor={name} style={labelStyles} className="input-option">
           {capitalizeFirstLetter(item.displayName ?? name)}
         </label>
       </div>
