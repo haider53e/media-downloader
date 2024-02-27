@@ -2,7 +2,6 @@
 import "dotenv/config.js";
 import "./utils/ensureEnv.js";
 import "./utils/cronJobs.js";
-import chalk from "chalk";
 import ViteExpress from "vite-express";
 import app from "./app.js";
 
