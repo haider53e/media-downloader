@@ -5,7 +5,7 @@ import setCORPHeader from "./middlewares/setCORPHeader.middleware.js";
 import instagramRoutes from "./routes/instagram.routes.js";
 import threadsRoutes from "./routes/threads.routes.js";
 
-const app = express();
+const app = express.Router();
 
 app.use(cors());
 app.use(express.text({ type: ["text/plain", "application/json"] }));

@@ -8,8 +8,8 @@ import {
 
 export default asyncHandler(async function (req, res, next) {
   const prams = req.originalUrl.split("/");
-  const platform = (req.params.platform = prams[3]);
-  const mediatype = (req.params.mediatype = prams[4]);
+  const platform = (req.params.platform = prams.at(-2));
+  const mediatype = (req.params.mediatype = prams.at(-1));
 
   console.log({ platform, mediatype });
 

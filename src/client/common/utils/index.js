@@ -1,5 +1,5 @@
-export function makeBackendUrl(url, noProxy) {
-  return (PROXY && !noProxy ? PROXY + "/?url=" : "") + SERVER + url;
+export function makeBackendUrl(url) {
+  return (PROXY ? PROXY + "/?url=" : "") + (SERVER ? SERVER : "") + BASE + url;
 }
 
 export function capitalizeFirstLetter(string) {
