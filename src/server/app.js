@@ -1,3 +1,8 @@
+"use strict";
+import "dotenv/config.js";
+import "./utils/ensureEnv.js";
+import "./utils/cronJobs.js";
+
 import express from "express";
 import cors from "cors";
 import setAttachment from "./middlewares/setAttachment.middleware.js";

@@ -13,12 +13,22 @@
 
 @font-face {
   font-family: "Instagram Sans";
-  src: url("/instagramsans.ttf");
+  src: url("/instagram-sans.ttf");
 }
 
 :focus-visible {
   outline-offset: 3px;
   outline-color: var(--theme);
+}
+
+footer{
+  :focus-visible {
+    border-radius: 20%;
+    outline-width: 2px;
+    outline-offset: 2px;
+    outline-style: solid;
+    outline-color: var(--theme);
+  }
 }
 
 html,

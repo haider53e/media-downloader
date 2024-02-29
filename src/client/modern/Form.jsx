@@ -5,10 +5,10 @@ import Spinner from "../common/components/Spinner";
 import SelectType from "../common/components/SelectType";
 import SelectQuality from "../common/components/SelectQuality";
 import HighlightGroups from "../common/components/HighlightGroups";
-import { regex } from "../common/constants";
-import { makeBackendUrl, capitalizeFirstLetter } from "../common/utils";
 import Toggle from "./Toggle";
+import { regex } from "../common/constants";
 import formatString from "../../server/utils/formatString";
+import { makeBackendUrl, capitalizeFirstLetter } from "../common/utils";
 
 export default function ({ platform, global }) {
   global.current[platform] ??= {

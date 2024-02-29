@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
 import makeString from "./src/server/utils/makeString";
 import useExpressInVite from "./src/server/utils/useExpressInVite";
 import { vitePlugin as multipageFallback } from "multipage-fallback";
