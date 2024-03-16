@@ -16,12 +16,16 @@
   src: url("/instagram-sans.ttf");
 }
 
+img[alt="www.000webhost.com"] {
+  display: none;
+}
+
 :focus-visible {
   outline-offset: 3px;
   outline-color: var(--theme);
 }
 
-footer{
+footer {
   :focus-visible {
     border-radius: 20%;
     outline-width: 2px;

@@ -15,6 +15,10 @@
   src: url("/instagram-sans.ttf");
 }
 
+img[alt="www.000webhost.com"] {
+  display: none;
+}
+
 html,
 body {
   font-family: "Instagram Sans";

@@ -1,2 +1,5 @@
-# Place this file in the directory path /media_downloader/experimental/
-FallbackResource /media_downloader/experimental/
+# /public_html/media_downloader/.htaccess
+FallbackResource /media_downloader/
+
+# /public_html/media_downloader/classic/.htaccess
+FallbackResource /media_downloader/classic/

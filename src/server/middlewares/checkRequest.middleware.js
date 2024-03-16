@@ -1,10 +1,6 @@
 import fs from "fs";
 import asyncHandler from "../utils/asyncHandler.js";
-import {
-  allowedOrigins,
-  fixedQuality,
-  regex,
-} from "../constants/app.constants.js";
+import { fixedQuality, regex } from "../constants/app.constants.js";
 
 export default asyncHandler(async function (req, res, next) {
   const prams = req.originalUrl.split("/");
@@ -12,18 +8,6 @@ export default asyncHandler(async function (req, res, next) {
   const mediatype = (req.params.mediatype = prams.at(-1));
 
   console.log({ platform, mediatype });
-
-  const domain = req.headers.origin?.split("//")?.[1];
-
-  if (!domain)
-    return res
-      .status(400)
-      .json({ error: "Required header 'origin' is missing." });
-
-  if (!allowedOrigins.includes(req.headers.origin))
-    return res
-      .status(400)
-      .json({ error: "Requests from " + domain + " are not allowed." });
 
   if (!["instagram", "threads"].includes(platform))
     return res

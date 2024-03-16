@@ -5,7 +5,7 @@ import { vitePlugin as multipageFallback } from "multipage-fallback";
 
 const base = ["/", "/media_downloader/"][0];
 const proxy = [false, "/media_downloader/proxy.php"][0];
-const server = ["/", "http://159.223.36.123:3001/"][0];
+const server = ["/", "http://example.com/"][0];
 
 // https://vitejs.dev/config/
 export default defineConfig({

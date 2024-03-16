@@ -8,13 +8,14 @@ import fallback from "express-history-api-fallback";
 // const __dirname = path.dirname(__filename)
 
 const app = express();
+const cwd = process.cwd();
+
 app.use(cors());
 app.use(express.static("dist"));
-app.use(
-  "/experimental",
-  fallback("index.html", { root: process.cwd() + "/dist/experimental" })
-);
+
+app.use("/classic", fallback("index.html", { root: cwd + "/dist/classic" }));
+app.use(fallback("index.html", { root: cwd + "/dist" }));
 
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => console.log("listening on port " + PORT));
+app.listen(PORT, () => console.log("server started: http://localhost:" + PORT));
