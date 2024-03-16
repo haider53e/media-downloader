@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import Form from "./Form";
 import Toggle from "./Toggle";
-import { capitalizeFirstLetter } from "../common/utils";
+import capitalizeFirstLetter from "../common/utils/capitalizeFirstLetter";
 
 export default function ({ selectedPlatform, platforms }) {
   const global = useRef({});

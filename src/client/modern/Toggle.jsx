@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import classNames from "classnames";
-import { capitalizeFirstLetter } from "../common/utils";
 import formatString from "../../server/utils/formatString";
+import capitalizeFirstLetter from "../common/utils/capitalizeFirstLetter";
 
 export default function ({ selectedItem, setItem, items, maxCoulmns, gap }) {
   const totalCoulmnsGap = (maxCoulmns - 1) * gap;

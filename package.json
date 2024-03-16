@@ -1,8 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
     "build": "vite build",
+    "dev": "vite dev --host",
     "start": "node src/server/index.js",
     "pm2:s": "pm2 start src/server/index.js -n media-downloader",
     "pm2:l": "pm2 logs media-downloader --lines 100",

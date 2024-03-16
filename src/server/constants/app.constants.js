@@ -1,7 +1,6 @@
-export const allowedDomains = [
-  "http://localhost:3001",
-  "http://159.223.36.123:3001",
-];
+export const allowedOrigins = ["http://localhost:3001"].concat(
+  process.env.ALLOWED_ORIGINS.split(" & ")
+);
 
 export const regex = {
   instagram: {

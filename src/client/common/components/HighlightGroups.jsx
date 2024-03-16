@@ -1,6 +1,6 @@
 import Image from "./Image";
 import ScrollingTitle from "./ScrollingTitle";
-import { makeBackendUrl } from "../utils";
+import makeBackendUrl from "../utils/makeBackendUrl";
 
 export default function ({
   items,

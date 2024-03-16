@@ -10,7 +10,8 @@ import SelectType from "../common/components/SelectType";
 import SelectQuality from "../common/components/SelectQuality";
 import HighlightGroups from "../common/components/HighlightGroups";
 import { regex } from "../common/constants";
-import { makeBackendUrl, capitalizeFirstLetter } from "../common/utils";
+import makeBackendUrl from "../common/utils/makeBackendUrl";
+import capitalizeFirstLetter from "../common/utils/capitalizeFirstLetter";
 
 export default function () {
   const [platform, setPlatform] = useState("instagram");

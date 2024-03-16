@@ -8,7 +8,8 @@ import HighlightGroups from "../common/components/HighlightGroups";
 import Toggle from "./Toggle";
 import { regex } from "../common/constants";
 import formatString from "../../server/utils/formatString";
-import { makeBackendUrl, capitalizeFirstLetter } from "../common/utils";
+import makeBackendUrl from "../common/utils/makeBackendUrl";
+import capitalizeFirstLetter from "../common/utils/capitalizeFirstLetter";
 
 export default function ({ platform, global }) {
   global.current[platform] ??= {

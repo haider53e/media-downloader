@@ -1,7 +1,7 @@
 import fs from "fs";
 import asyncHandler from "../utils/asyncHandler.js";
 import {
-  allowedDomains,
+  allowedOrigins,
   fixedQuality,
   regex,
 } from "../constants/app.constants.js";
@@ -20,7 +20,7 @@ export default asyncHandler(async function (req, res, next) {
       .status(400)
       .json({ error: "Required header 'origin' is missing." });
 
-  if (!allowedDomains.includes(req.headers.origin))
+  if (!allowedOrigins.includes(req.headers.origin))
     return res
       .status(400)
       .json({ error: "Requests from " + domain + " are not allowed." });

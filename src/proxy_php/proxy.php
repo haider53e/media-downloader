@@ -23,14 +23,14 @@ if (!isset($_REQUEST["url"]))
     send_error(500, "Required perameter 'url' is missing.");
 
 $is_url_valid = !filter_var($_REQUEST["url"], FILTER_VALIDATE_URL)
-    || !($origin = origin_from_url($_REQUEST["url"]));
+    || !($destination = origin_from_url($_REQUEST["url"]));
 
 if ($is_url_valid)
     send_error(500, "Provided 'url' is not valid.");
 
-$allowedOrigins = ["http://localhost:3001"];
+$allowedDestinations = ["http://localhost:3001"];
 
-if (!in_array($origin, $allowedOrigins))
+if (!in_array($destination, $allowedDestinations))
     send_error(500, "Provided 'url' is not allowed.");
 
 $requestUrl = $_REQUEST["url"];

@@ -1,7 +1,7 @@
 import Audio from "./Audio";
 import Video from "./Video";
 import Image from "./Image";
-import { makeBackendUrl } from "../utils";
+import makeBackendUrl from "../utils/makeBackendUrl";
 
 export default function ({
   items,

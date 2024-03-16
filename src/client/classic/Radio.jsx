@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter } from "../common/utils";
+import capitalizeFirstLetter from "../common/utils/capitalizeFirstLetter";
 
 export default ({ selectedItem, setItem, items, labelStyles }) =>
   items.map((item) => {
