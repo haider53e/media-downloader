@@ -41,7 +41,7 @@ export default function () {
 
       let response = await fetch(url, {
         method: "POST",
-        body: JSON.stringify({ identifier, quality: Number(quality) }),
+        body: JSON.stringify({ identifier, quality: Number(quality) + 1 }),
       });
       response = await response.json();
       // console.log(response)

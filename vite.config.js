@@ -4,7 +4,7 @@ import useExpressInVite from "./src/server/utils/useExpressInVite";
 import { vitePlugin as multipageFallback } from "multipage-fallback";
 
 const base = ["/", "/media_downloader/"][0];
-const proxy = [false, "/media_downloader/proxy.php"][0];
+const proxy = [false, "/proxy.php"][0];
 const server = ["/", "http://example.com/"][0];
 
 // https://vitejs.dev/config/

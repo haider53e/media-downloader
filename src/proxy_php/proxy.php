@@ -18,15 +18,15 @@ function send_error($code, $message)
     exit(json_encode(["error" => $message, "error_generated_by" => "proxy"], JSON_UNESCAPED_SLASHES));
 }
 
-function origin($url)
+function origin_from_url($url)
 {
     extract(parse_url($url));
     if (!isset($scheme) || !isset($host)) return null;
     return "$scheme://$host" . (isset($port) ? ":$port" : "");
 }
 
-if (isset($_SERVER["HTTP_ORIGIN"])) $origin = origin($_SERVER["HTTP_ORIGIN"]);
-else if (isset($_SERVER["HTTP_REFERER"])) $origin = origin($_SERVER["HTTP_REFERER"]);
+if (isset($_SERVER["HTTP_ORIGIN"])) $origin = origin_from_url($_SERVER["HTTP_ORIGIN"]);
+else if (isset($_SERVER["HTTP_REFERER"])) $origin = origin_from_url($_SERVER["HTTP_REFERER"]);
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
@@ -54,7 +54,7 @@ if (!isset($_REQUEST["url"]))
     send_error(400, "Required perameter url is missing.");
 
 $destinationUrl = $_REQUEST["url"];
-$destination = origin($destinationUrl);
+$destination = origin_from_url($destinationUrl);
 $is_url_valid = filter_var($destinationUrl, FILTER_VALIDATE_URL);
 
 if (!$destination || !$is_url_valid)
