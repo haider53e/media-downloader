@@ -13,7 +13,7 @@ function checkPostsForRemoval(interval) {
       if (post == ".gitkeep") return;
       const postPath = platformPath + "/" + post;
       //
-      const lastAccessed = fs.readFileSync(postPath + "/.lastaccessed");
+      const lastAccessed = fs.readFileSync(postPath + "/lastaccessed.txt");
       if (lastAccessed < timeNowMinusInterval)
         fs.rmSync(postPath, { recursive: true });
       //

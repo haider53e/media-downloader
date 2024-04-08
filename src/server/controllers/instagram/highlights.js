@@ -58,6 +58,6 @@ export default async function (req, res) {
       .json({ error: "Error occured during downloading files." });
 
   const final = { type: "highlights", items: downloadedLinks };
-  fs.writeFileSync(dir + ".items", JSON.stringify(final));
+  fs.writeFileSync(dir + "items.json", JSON.stringify(final));
   res.status(201).json(final);
 }

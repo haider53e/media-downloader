@@ -2,6 +2,7 @@ import fs from "fs";
 import https from "https";
 import path from "path";
 import sharp from "sharp";
+import formatString from "./formatString.js";
 
 export default function (links, dir, forcedExt) {
   console.log(links);
@@ -48,12 +49,16 @@ export default function (links, dir, forcedExt) {
               format: metadata.format,
               width: metadata.width,
               height: metadata.height,
-              blur: blur.toString("base64"),
+              blur: formatString(
+                "data:image/{0};base64,{1}",
+                metadata.format,
+                blur.toString("base64")
+              ),
             };
           }
           //
           if (++downloadedCount === links.length) {
-            fs.writeFileSync(dir + ".lastaccessed", Date.now().toString());
+            fs.writeFileSync(dir + "lastaccessed.txt", Date.now().toString());
             resolve(downloadedLinks);
           }
           // console.log("Download Completed.")

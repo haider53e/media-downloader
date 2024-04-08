@@ -5,9 +5,9 @@ import { expressMiddleware as multipageFallback } from "multipage-fallback";
 
 const server = express();
 
-const viteConfig = await getViteConfig();
 server.use(app, express.static("dist"), multipageFallback());
 
+const viteConfig = await getViteConfig();
 const PORT = process.env.PORT || viteConfig.server.port;
 
 server.listen(PORT, () =>

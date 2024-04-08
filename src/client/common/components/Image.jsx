@@ -17,11 +17,7 @@ export default function ({ item, extraImageStyles }) {
         ...extraImageStyles,
       }}
     >
-      <img
-        ref={blur}
-        style={size}
-        src={"data:image/" + item.format + ";base64," + item.blur}
-      ></img>
+      <img ref={blur} style={size} src={item.blur}></img>
       <img
         onLoad={(e) => {
           blur.current.style.display = "none";

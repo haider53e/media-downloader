@@ -8,7 +8,7 @@ export default function () {
           </span>
         </div>
         <div style={{ height: "100%" }}>
-          <a className="promo" href={BASE + "classic"}>
+          <a className="promo" href={BASE + "classic/"}>
             Use Classic Version
           </a>
         </div>

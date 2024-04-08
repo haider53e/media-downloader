@@ -97,7 +97,7 @@ export default function ({ platform, global }) {
     }
   };
 
-  const mediaType = {
+  const mediaTypes = {
     instagram: [
       "post",
       "stories",
@@ -126,7 +126,7 @@ export default function ({ platform, global }) {
           <Toggle
             selectedItem={type}
             setItem={setType}
-            items={mediaType}
+            items={mediaTypes}
             maxCoulmns={2}
             gap={8}
           />

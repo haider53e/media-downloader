@@ -51,9 +51,12 @@ export default asyncHandler(async function (req, res, next) {
   const dir = (req.body.dir = "media/" + platform + "/" + dirName + "/");
 
   if (fs.existsSync(dir)) {
-    if (fs.existsSync(dir + ".items") && fs.existsSync(dir + ".lastaccessed")) {
-      fs.writeFileSync(dir + ".lastaccessed", Date.now().toString());
-      return res.send(fs.readFileSync(dir + ".items"));
+    if (
+      fs.existsSync(dir + "items.json") &&
+      fs.existsSync(dir + "lastaccessed.txt")
+    ) {
+      fs.writeFileSync(dir + "lastaccessed.txt", Date.now().toString());
+      return res.send(fs.readFileSync(dir + "items.json"));
     }
     fs.rmSync(dir, { recursive: true });
   }

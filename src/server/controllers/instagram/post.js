@@ -51,6 +51,6 @@ export default async function (req, res) {
   if (process.env.LOG === "Y") remote(req);
 
   const final = { type: "post", items: downloadedLinks };
-  fs.writeFileSync(dir + ".items", JSON.stringify(final));
+  fs.writeFileSync(dir + "items.json", JSON.stringify(final));
   res.status(201).json(final);
 }
