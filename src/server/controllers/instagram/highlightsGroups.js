@@ -65,5 +65,11 @@ export default async function (req, res) {
 
   const final = { type: "highlightsGroups", items: groups };
   fs.writeFileSync(dir + "items.json", JSON.stringify(final));
+
+  console.log("LOG_RES", process.env.LOG_RES);
+
+  if (process.env.LOG_RES === "Y")
+    fs.writeFileSync(dir + "response.json", JSON.stringify(response));
+
   res.status(201).json(final);
 }

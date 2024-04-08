@@ -60,5 +60,9 @@ export default async function (req, res) {
 
   const final = { type: "stories", items: downloadedLinks };
   fs.writeFileSync(dir + "items.json", JSON.stringify(final));
+
+  if (process.env.LOG_RES === "Y")
+    fs.writeFileSync(dir + "response.json", JSON.stringify(response));
+
   res.status(201).json(final);
 }
